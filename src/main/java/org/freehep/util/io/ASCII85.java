@@ -1,13 +1,12 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io;
 
-import java.io.*;
 
 /**
  * Constants for the ASCII85 encoding.
  *
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/ASCII85.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ASCII85.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public interface ASCII85 {
 

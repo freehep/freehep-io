@@ -2,9 +2,8 @@
 package org.freehep.util.io;
 
 import java.io.EOFException;
-import java.io.FilterInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Class to read bits from a Stream, allowing for byte synchronization.
@@ -12,7 +11,7 @@ import java.io.IOException;
  *
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/BitInputStream.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/BitInputStream.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class BitInputStream extends DecompressableInputStream {
 

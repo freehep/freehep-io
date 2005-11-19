@@ -7,11 +7,16 @@ import java.io.IOException;
  * Encoding Exception for any of the encoding streams.
  *
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/EncodingException.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/EncodingException.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class EncodingException extends IOException {
 
-    public EncodingException(String msg) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8496816190751796701L;
+
+	public EncodingException(String msg) {
         super(msg);
     }
 }

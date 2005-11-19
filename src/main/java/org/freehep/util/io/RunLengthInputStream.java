@@ -12,11 +12,10 @@ import java.io.*;
  * so that the correct read(byte[], int, int) method is used.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/RunLengthInputStream.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/RunLengthInputStream.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class RunLengthInputStream extends InputStream implements RunLength {
 
-    private boolean endReached;
     private int[] buffer = new int[LENGTH];
     private int index;
     private int count;
@@ -25,7 +24,6 @@ public class RunLengthInputStream extends InputStream implements RunLength {
     public RunLengthInputStream(InputStream input) {
         super();
         in = input;
-        endReached = false;
         index = 0;
         count = 0;
     }
@@ -69,7 +67,6 @@ public class RunLengthInputStream extends InputStream implements RunLength {
 
     private boolean end(int b) {
         if ((b < 0) || (b == EOD)) {
-            endReached = true;
             return true;
         }
         return false; 

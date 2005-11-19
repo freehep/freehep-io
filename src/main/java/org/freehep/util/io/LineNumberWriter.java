@@ -11,7 +11,7 @@ import java.util.*;
  * Listeners can only be informed from the second line only.
  *
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/LineNumberWriter.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/LineNumberWriter.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class LineNumberWriter extends Writer {
 
@@ -141,7 +141,11 @@ public class LineNumberWriter extends Writer {
     }
 
     public static class LineNumberEvent extends EventObject {
-        private int lineNo;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 2821724279014031198L;
+		private int lineNo;
 
         public LineNumberEvent(Object source, int lineNo) {
             super(source);

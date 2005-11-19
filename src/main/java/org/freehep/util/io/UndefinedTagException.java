@@ -9,11 +9,16 @@ import java.io.IOException;
  *
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/UndefinedTagException.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/UndefinedTagException.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class UndefinedTagException extends IOException {
 
-    public UndefinedTagException() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7504997713135869344L;
+
+	public UndefinedTagException() {
         super();
     }
     

@@ -9,11 +9,15 @@ import java.io.IOException;
  *
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/IncompleteTagException.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/IncompleteTagException.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class IncompleteTagException extends IOException {
 
-    private Tag tag;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7808675150856818588L;
+	private Tag tag;
     private byte[] rest;
 
     public IncompleteTagException(Tag tag, byte[] rest) {

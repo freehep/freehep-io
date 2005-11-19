@@ -10,7 +10,7 @@ import java.io.*;
  * so that the correct read(byte[], int, int) method is used.
  *
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/Base64InputStream.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/Base64InputStream.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class Base64InputStream extends InputStream {
 
@@ -21,7 +21,7 @@ public class Base64InputStream extends InputStream {
     private int lineNo;
     private InputStream in;
     private static final int ILLEGAL = -1;
-    private static final int WHITESPACE = -2;
+//    private static final int WHITESPACE = -2;
     private static final int LINEFEED = -3;
     private static final int CARRIAGERETURN = -4;
     private static final int EQUALS = -5;

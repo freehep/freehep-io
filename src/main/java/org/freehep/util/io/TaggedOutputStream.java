@@ -1,9 +1,8 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Class to write Tagged blocks to a Stream. The tagged blocks (Tags) contain
@@ -18,7 +17,7 @@ import java.io.IOException;
  *
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/TaggedOutputStream.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/TaggedOutputStream.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public abstract class TaggedOutputStream
         extends ByteCountOutputStream

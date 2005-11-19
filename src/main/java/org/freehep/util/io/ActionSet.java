@@ -1,10 +1,8 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class to keep registered Actions, 
@@ -15,7 +13,7 @@ import java.util.HashMap;
  *
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/ActionSet.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ActionSet.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class ActionSet {
     

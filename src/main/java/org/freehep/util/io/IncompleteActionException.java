@@ -9,11 +9,15 @@ import java.io.IOException;
  *
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/IncompleteActionException.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/IncompleteActionException.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class IncompleteActionException extends IOException {
 
-    private Action action;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6817511986951461967L;
+	private Action action;
     private byte[] rest;
 
     public IncompleteActionException(Action action, byte[] rest) {

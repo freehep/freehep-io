@@ -1,23 +1,17 @@
 // Copyright 2001-2005, FreeHEP.
 package org.freehep.util.io;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.image.ImageObserver;
-import java.awt.image.RenderedImage;
 import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.UTFDataFormatException;
-import java.io.EOFException;
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UTFDataFormatException;
 
 /**
  * Class to write bytes and pairs of bytes in both little and big endian order.
  *
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/ByteOrderOutputStream.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ByteOrderOutputStream.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class ByteOrderOutputStream extends BitOutputStream implements DataOutput {
 

@@ -9,7 +9,7 @@ import java.io.ByteArrayInputStream;
  * Decrypts using the EEXEC form (Used by Type 1 fonts).
  *
  * @author Simon Fischer
- * @version $Id: src/main/java/org/freehep/util/io/EEXECDecryption.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/EEXECDecryption.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class EEXECDecryption extends InputStream implements EEXECConstants {
     
@@ -49,7 +49,7 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 	    }
 	    if (notHex) {
 		for (int i = 0; i < bytes.length; i++) {
-		    int d = decrypt(bytes[i] & 0x00ff);
+		    decrypt(bytes[i] & 0x00ff);
 		}
 	    } else {
 		InputStream tempIn = new ASCIIHexInputStream(new ByteArrayInputStream(bytes),

@@ -1,7 +1,7 @@
 package org.freehep.util.io;
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintWriter;
+import java.io.Writer;
 
 /**
  * A PrintWriter that keeps track of an indentation level
@@ -9,7 +9,7 @@ import java.util.*;
  *
  * @author Tony Johnson
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/IndentPrintWriter.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/IndentPrintWriter.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class IndentPrintWriter extends PrintWriter
 {

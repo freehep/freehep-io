@@ -7,14 +7,13 @@ import java.io.*;
  * The Base64OutputStream encodes binary data according to RFC 2045.
  *
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/Base64OutputStream.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/Base64OutputStream.java effd8b4f3966 2005/11/19 07:52:18 duns $
  */
 public class Base64OutputStream extends FilterOutputStream implements FinishableOutputStream {
 
     private int MAX_LINE_LENGTH = 74;
     private int position;
     private byte[] buffer;
-    private int bufferLength;
     private int lineLength;
     private static final char intToBase64[] = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',     //  0 -  7
