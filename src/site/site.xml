@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="freehep-io">
     <bannerLeft>
-        <name>FreeHEP FIXME</name>
+        <name>FreeHEP I/O</name>
 <!--        <src>http://maven.apache.org/images/apache-maven-project.png</src> -->
 <!-- FIXME, should this be substituted by some properties -->
         <href>http://java.freehep.org/mvn/freehep-io</href>
