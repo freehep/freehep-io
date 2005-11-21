@@ -1,24 +1,22 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
- * Class to read Tagged blocks from a Stream. The tagged blocks (Tags) contain
- * a tagID and a Length, so that known and unknown tags can be read and written
- * (using the TaggedOutputStream).
- * The stream also allows to read Actions, which again come with a actionCode and
- * a length.
- *
- * A set of recognized Tags and Actions can be added to this stream.
- * A concrete implementation of this stream should decode/read the TagHeader.
- * All Concrete tags should be inherited from the Tag class and implement
- * their read methods.
- *
+ * Class to read Tagged blocks from a Stream. The tagged blocks (Tags) contain a
+ * tagID and a Length, so that known and unknown tags can be read and written
+ * (using the TaggedOutputStream). The stream also allows to read Actions, which
+ * again come with a actionCode and a length.
+ * 
+ * A set of recognized Tags and Actions can be added to this stream. A concrete
+ * implementation of this stream should decode/read the TagHeader. All Concrete
+ * tags should be inherited from the Tag class and implement their read methods.
+ * 
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/TaggedInputStream.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/TaggedInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
 public abstract class TaggedInputStream extends ByteCountInputStream {
 
@@ -32,33 +30,60 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
      */
     protected ActionSet actionSet;
 
+    /**
+     * Creates a Tagged Input Stream
+     * 
+     * @param in stream to read from
+     * @param tagSet available tag set
+     * @param actionSet available action set
+     */
     public TaggedInputStream(InputStream in, TagSet tagSet, ActionSet actionSet) {
         this(in, tagSet, actionSet, false);
     }
 
-    public TaggedInputStream(InputStream in, TagSet tagSet, ActionSet actionSet, boolean littleEndian) {
+    /**
+     * Creates a Tagged Input Stream
+     * 
+     * @param in stream to read from
+     * @param tagSet available tag set
+     * @param actionSet available action set
+     * @param littleEndian true if stream is little endian
+     */
+    public TaggedInputStream(InputStream in, TagSet tagSet,
+            ActionSet actionSet, boolean littleEndian) {
         super(in, littleEndian, 8);
 
         this.tagSet = tagSet;
         this.actionSet = actionSet;
     }
 
+    /**
+     * Add tag to tagset
+     * 
+     * @param tag new tag
+     */
     public void addTag(Tag tag) {
         tagSet.addTag(tag);
     }
 
     /**
-     * Decodes and returns the TagHeader, which includes a TagID and a length
+     * Decodes and returns the TagHeader, which includes a TagID and a length.
+     * 
+     * @return Decoded TagHeader
+     * @throws IOException if read fails
      */
     protected abstract TagHeader readTagHeader() throws IOException;
 
     /**
-     * Read a tag. */
-    public Tag readTag()
-        throws IOException {
+     * Read a tag.
+     * @return read tag
+     * @throws IOException if read fails
+     */
+    public Tag readTag() throws IOException {
 
         TagHeader header = readTagHeader();
-        if (header == null) return null;
+        if (header == null)
+            return null;
 
         int size = (int) header.getLength();
 
@@ -77,20 +102,35 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
         return tag;
     }
 
+    /**
+     * Add action to action set.
+     * 
+     * @param action new action
+     */
     public void addAction(Action action) {
         actionSet.addAction(action);
     }
 
     /**
-     * Decodes and returns the ActionHeader, which includes an actionCode and a length
+     * Decodes and returns the ActionHeader, which includes an actionCode and a
+     * length.
+     * 
+     * @return decoded ActionHeader 
+     * @throws IOException if read fails
      */
     protected abstract ActionHeader readActionHeader() throws IOException;
 
-    public Action readAction()
-        throws IOException {
+    /**
+     * Reads action.
+     * 
+     * @return read action
+     * @throws IOException if read fails
+     */
+    public Action readAction() throws IOException {
 
         ActionHeader header = readActionHeader();
-        if (header == null) return null;
+        if (header == null)
+            return null;
 
         int size = (int) header.getLength();
 

@@ -1,29 +1,38 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
- * The input buffer can be limited to less than the number of bytes
- * of the underlying buffer. Only one real
- * input stream exists, which is where the reads take place. A buffer
- * is limited by some length. If more is read, -1 is returned.
- * Multiple limits can be set by calling pushBuffer.
- * If bytes are left in the buffer when popBuffer is called, they are returned
- * in an array. Otherwise null is returned.
- *
+ * The input buffer can be limited to less than the number of bytes of the
+ * underlying buffer. Only one real input stream exists, which is where the
+ * reads take place. A buffer is limited by some length. If more is read, -1 is
+ * returned. Multiple limits can be set by calling pushBuffer. If bytes are left
+ * in the buffer when popBuffer is called, they are returned in an array.
+ * Otherwise null is returned.
+ * 
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/ByteCountInputStream.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ByteCountInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class ByteCountInputStream extends ByteOrderInputStream {
 
     private int index;
+
     private int[] size;
+
     private long len;
 
-    public ByteCountInputStream(InputStream in, boolean littleEndian, int stackDepth) {
+    /**
+     * Create a Byte Count input stream from given stream
+     * 
+     * @param in stream to read from
+     * @param littleEndian true if stream should be little endian
+     * @param stackDepth maximum number of buffers used while reading
+     */
+    public ByteCountInputStream(InputStream in, boolean littleEndian,
+            int stackDepth) {
         super(in, littleEndian);
         size = new int[stackDepth];
         index = -1;
@@ -38,7 +47,8 @@ public class ByteCountInputStream extends ByteOrderInputStream {
         }
 
         // end of buffer
-        if (size[index] <= 0) return -1;
+        if (size[index] <= 0)
+            return -1;
 
         // decrease counter
         size[index]--;
@@ -47,15 +57,26 @@ public class ByteCountInputStream extends ByteOrderInputStream {
         return super.read();
     }
 
+    /**
+     * Push the current buffer to the stack
+     * 
+     * @param len number of bytes that can be read from the current buffer
+     */
     public void pushBuffer(int len) {
-        if (index >= size.length-1) {
-            System.err.println("ByteCountInputStream: trying to push more buffers than stackDepth: "+size.length);
+        if (index >= size.length - 1) {
+            System.err
+                    .println("ByteCountInputStream: trying to push more buffers than stackDepth: "
+                            + size.length);
             return;
         }
 
         if (index >= 0) {
             if (size[index] < len) {
-                System.err.println("ByteCountInputStream: trying to set a length: "+len+", longer than the underlying buffer: "+size[index]);
+                System.err
+                        .println("ByteCountInputStream: trying to set a length: "
+                                + len
+                                + ", longer than the underlying buffer: "
+                                + size[index]);
                 return;
             }
             size[index] -= len;
@@ -65,8 +86,11 @@ public class ByteCountInputStream extends ByteOrderInputStream {
     }
 
     /**
+     * Pops the buffer from the stack and returns leftover bytes in a byte array
+     * 
      * @return null if buffer was completely read. Otherwise rest of buffer is
-     * read and returned.
+     *         read and returned.
+     * @throws IOException if read fails
      */
     public byte[] popBuffer() throws IOException {
         if (index >= 0) {
@@ -81,7 +105,10 @@ public class ByteCountInputStream extends ByteOrderInputStream {
         return null;
     }
 
+    /**
+     * @return number of bytes that can be read from the current buffer
+     */
     public long getLength() {
-        return (index >=0) ? size[index] : len;
+        return (index >= 0) ? size[index] : len;
     }
 }

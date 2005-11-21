@@ -6,21 +6,23 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Class to read bits from a Stream, allowing for byte synchronization.
- * Signed, Unsigned, Booleans and Floats can be read.
- *
+ * Class to read bits from a Stream, allowing for byte synchronization. Signed,
+ * Unsigned, Booleans and Floats can be read.
+ * 
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/BitInputStream.java effd8b4f3966 2005/11/19 07:52:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/BitInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class BitInputStream extends DecompressableInputStream {
 
     final protected static int MASK_SIZE = 8;
 
     final protected static int ZERO = 0;
+
     final protected static int ONES = ~0;
 
     final protected static int[] BIT_MASK = new int[MASK_SIZE];
+
     final protected static int[] FIELD_MASK = new int[MASK_SIZE];
 
     // Generate the needed masks for various bit fields and for
@@ -28,7 +30,7 @@ public class BitInputStream extends DecompressableInputStream {
     static {
         int tempBit = 1;
         int tempField = 1;
-        for (int i=0; i<MASK_SIZE; i++) {
+        for (int i = 0; i < MASK_SIZE; i++) {
 
             // Set the masks.
             BIT_MASK[i] = tempBit;
@@ -42,14 +44,21 @@ public class BitInputStream extends DecompressableInputStream {
     }
 
     /**
-     * This is a prefetched byte used to construct signed and unsigned
-     * numbers with an arbitrary number of significant bits. */
+     * This is a prefetched byte used to construct signed and unsigned numbers
+     * with an arbitrary number of significant bits.
+     */
     private int bits;
 
     /**
-     * The number of valid bits remaining in the bits field. */
+     * The number of valid bits remaining in the bits field.
+     */
     private int validBits;
 
+    /**
+     * Create a Bit input stream from viven input
+     * 
+     * @param in stream to read from
+     */
     public BitInputStream(InputStream in) {
         super(in);
 
@@ -58,69 +67,91 @@ public class BitInputStream extends DecompressableInputStream {
     }
 
     /**
-     * A utility method to fetch the next byte in preparation for
-     * constructing a bit field.  There is no protection for this
-     * method; ensure that it is only called when a byte must be
-     * fetched. */
-    protected void fetchByte()
-        throws IOException {
+     * A utility method to fetch the next byte in preparation for constructing a
+     * bit field. There is no protection for this method; ensure that it is only
+     * called when a byte must be fetched.
+     * 
+     * @throws IOException if read fails
+     */
+    protected void fetchByte() throws IOException {
 
         bits = read();
-        if (bits < 0) throw new EOFException();
+        if (bits < 0)
+            throw new EOFException();
         validBits = MASK_SIZE;
     }
 
     /**
-     * A utility to force the next read to be byte-aligned. */
+     * A utility to force the next read to be byte-aligned.
+     */
     public void byteAlign() {
         validBits = 0;
     }
 
     /**
-     * Read a bit from the input stream and interpret this as a
-     * boolean value.  A 1-bit is true; a 0-bit is false. */
-    public boolean readBitFlag()
-        throws IOException {
+     * Read a bit from the input stream and interpret this as a boolean value. A
+     * 1-bit is true; a 0-bit is false.
+     * 
+     * @return true if read bit was 1
+     * @throws IOException if read fails
+     */
+    public boolean readBitFlag() throws IOException {
 
-        if (validBits==0) fetchByte();
-        return ((bits & BIT_MASK[--validBits])!=0);
+        if (validBits == 0)
+            fetchByte();
+        return ((bits & BIT_MASK[--validBits]) != 0);
     }
 
     /**
-     * Read a signed value of n-bits from the input stream. */
-    public long readSBits(int n)
-        throws IOException {
+     * Read a signed value of n-bits from the input stream.
+     * 
+     * @param n number of bits to read
+     * @return value made up of read bits
+     * @throws IOException if read fails
+     */
+    public long readSBits(int n) throws IOException {
 
-        if (n == 0) return 0;
+        if (n == 0)
+            return 0;
         int value = (readBitFlag()) ? ONES : ZERO;
         value <<= (--n);
         return (value | readUBits(n));
     }
 
     /**
-     * Read a float value of n-bits from the stream. */
-    public float readFBits(int n)
-        throws IOException {
+     * Read a float value of n-bits from the stream.
+     * 
+     * @param n number of bits to read
+     * @return value made up of read bits
+     * @throws IOException if read fails
+     */
+    public float readFBits(int n) throws IOException {
 
-        if (n == 0) return 0.0f;
-        return ((float)readSBits(n))/0x1000;
+        if (n == 0)
+            return 0.0f;
+        return ((float) readSBits(n)) / 0x1000;
     }
 
     /**
-     * Read an unsigned value of n-bits from the input stream. */
-    public long readUBits(int n)
-        throws IOException {
+     * Read an unsigned value of n-bits from the input stream.
+     * 
+     * @param n number of bits to read
+     * @return value made up of read bits
+     * @throws IOException if read fails
+     */
+    public long readUBits(int n) throws IOException {
 
         long value = ZERO;
-        while (n>0) {
+        while (n > 0) {
 
             // Take the needed bits or the number which are valid
             // whichever is less.
-            if (validBits==0) fetchByte();
-            int nbits = (n>validBits) ? validBits : n;
+            if (validBits == 0)
+                fetchByte();
+            int nbits = (n > validBits) ? validBits : n;
 
             // Take the bits and update the counters.
-            int temp = ((bits>>(validBits-nbits)) & FIELD_MASK[nbits-1]);
+            int temp = ((bits >> (validBits - nbits)) & FIELD_MASK[nbits - 1]);
             validBits -= nbits;
             n -= nbits;
 

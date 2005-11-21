@@ -1,31 +1,43 @@
 // Copyright 2003, FreeHEP.
 package org.freehep.util.io;
 
-import java.io.*;
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * The Base64OutputStream encodes binary data according to RFC 2045.
- *
+ * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/Base64OutputStream.java effd8b4f3966 2005/11/19 07:52:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/Base64OutputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
-public class Base64OutputStream extends FilterOutputStream implements FinishableOutputStream {
+public class Base64OutputStream extends FilterOutputStream implements
+        FinishableOutputStream {
 
     private int MAX_LINE_LENGTH = 74;
+
     private int position;
+
     private byte[] buffer;
+
     private int lineLength;
-    private static final char intToBase64[] = {
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',     //  0 -  7
-        'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',     //  8 - 15
-        'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',     // 16 - 23
-        'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',     // 24 - 31
-        'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',     // 32 - 39
-        'o', 'p', 'q', 'r', 's', 't', 'u', 'v',     // 40 - 47
-        'w', 'x', 'y', 'z', '0', '1', '2', '3',     // 48 - 55
-        '4', '5', '6', '7', '8', '9', '+', '/'      // 56 - 63
+
+    private static final char intToBase64[] = { 'A', 'B', 'C', 'D', 'E', 'F',
+            'G', 'H', // 0 - 7
+            'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', // 8 - 15
+            'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', // 16 - 23
+            'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', // 24 - 31
+            'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', // 32 - 39
+            'o', 'p', 'q', 'r', 's', 't', 'u', 'v', // 40 - 47
+            'w', 'x', 'y', 'z', '0', '1', '2', '3', // 48 - 55
+            '4', '5', '6', '7', '8', '9', '+', '/' // 56 - 63
     };
 
+    /**
+     * Creates a Base64 output stream for given output
+     * 
+     * @param out stream to write to
+     */
     public Base64OutputStream(OutputStream out) {
         super(out);
         buffer = new byte[3];
@@ -34,15 +46,18 @@ public class Base64OutputStream extends FilterOutputStream implements Finishable
     }
 
     public void write(int a) throws IOException {
-        buffer[position++] = (byte)a;
-        if (position < buffer.length ) return;
+        buffer[position++] = (byte) a;
+        if (position < buffer.length)
+            return;
 
-//        System.out.print(Integer.toHexString(buffer[0])+", "+Integer.toHexString(buffer[1])+", "+Integer.toHexString(buffer[2])+" ");
+        // System.out.print(Integer.toHexString(buffer[0])+",
+        // "+Integer.toHexString(buffer[1])+",
+        // "+Integer.toHexString(buffer[2])+" ");
         writeTuple();
-//        out.write('\n');
+        // out.write('\n');
 
         lineLength += 4;
-        if (lineLength >= MAX_LINE_LENGTH ) {
+        if (lineLength >= MAX_LINE_LENGTH) {
             out.write('\n');
             lineLength = 0;
         }
@@ -54,7 +69,7 @@ public class Base64OutputStream extends FilterOutputStream implements Finishable
         writeTuple();
         flush();
         if (out instanceof FinishableOutputStream) {
-            ((FinishableOutputStream)out).finish();
+            ((FinishableOutputStream) out).finish();
         }
     }
 
@@ -64,37 +79,38 @@ public class Base64OutputStream extends FilterOutputStream implements Finishable
     }
 
     private void writeTuple() throws IOException {
-        int data = ( position > 0 ? (buffer[0] << 16) & 0x00FF0000 : 0)
-                 | ( position > 1 ? (buffer[1] <<  8) & 0x0000FF00 : 0)
-                 | ( position > 2 ? (buffer[2]      ) & 0x000000FF : 0);
+        int data = (position > 0 ? (buffer[0] << 16) & 0x00FF0000 : 0)
+                | (position > 1 ? (buffer[1] << 8) & 0x0000FF00 : 0)
+                | (position > 2 ? (buffer[2]) & 0x000000FF : 0);
 
-//        System.out.println(Integer.toHexString(data));
+        // System.out.println(Integer.toHexString(data));
         switch (position) {
-            case 3:
-//                System.out.println("\n*** "+((data >> 18) & 0x3f) +", "+((data >> 12) & 0x3f)+", "+
-//                                            ((data >>  6) & 0x3f) +", "+((data      ) & 0x3f));
-                out.write(intToBase64[(data >> 18) & 0x3f]);
-                out.write(intToBase64[(data >> 12) & 0x3f]);
-                out.write(intToBase64[(data >>  6) & 0x3f]);
-                out.write(intToBase64[(data      ) & 0x3f]);
-                return;
+        case 3:
+            // System.out.println("\n*** "+((data >> 18) & 0x3f) +", "+((data >>
+            // 12) & 0x3f)+", "+
+            // ((data >> 6) & 0x3f) +", "+((data ) & 0x3f));
+            out.write(intToBase64[(data >> 18) & 0x3f]);
+            out.write(intToBase64[(data >> 12) & 0x3f]);
+            out.write(intToBase64[(data >> 6) & 0x3f]);
+            out.write(intToBase64[(data) & 0x3f]);
+            return;
 
-            case 2:
-                out.write(intToBase64[(data >> 18) & 0x3f]);
-                out.write(intToBase64[(data >> 12) & 0x3f]);
-                out.write(intToBase64[(data >>  6) & 0x3f]);
-                out.write('=');
-                return;
+        case 2:
+            out.write(intToBase64[(data >> 18) & 0x3f]);
+            out.write(intToBase64[(data >> 12) & 0x3f]);
+            out.write(intToBase64[(data >> 6) & 0x3f]);
+            out.write('=');
+            return;
 
-            case 1:
-                out.write(intToBase64[(data >> 18) & 0x3f]);
-                out.write(intToBase64[(data >> 12) & 0x3f]);
-                out.write('=');
-                out.write('=');
-                return;
+        case 1:
+            out.write(intToBase64[(data >> 18) & 0x3f]);
+            out.write(intToBase64[(data >> 12) & 0x3f]);
+            out.write('=');
+            out.write('=');
+            return;
 
-            default:
-                return;
+        default:
+            return;
         }
     }
 

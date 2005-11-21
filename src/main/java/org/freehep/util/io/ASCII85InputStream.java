@@ -1,30 +1,43 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
- * The ASCII85InputStream decodes ASCII base-85 encoded data.
- * The exact definition of ASCII base-85 encoding can be found
- * in the PostScript Language Reference (3rd ed.) chapter 3.13.3.
- *
- * IMPORTANT: inherits from InputStream rather than FilterInputStream
- * so that the correct read(byte[], int, int) method is used.
- *
+ * The ASCII85InputStream decodes ASCII base-85 encoded data. The exact
+ * definition of ASCII base-85 encoding can be found in the PostScript Language
+ * Reference (3rd ed.) chapter 3.13.3.
+ * 
+ * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
+ * the correct read(byte[], int, int) method is used.
+ * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/ASCII85InputStream.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ASCII85InputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class ASCII85InputStream extends InputStream implements ASCII85 {
 
     private boolean endReached;
+
     private int b[] = new int[4];
+
     private int bIndex;
+
     private int bLength;
+
     private int c[] = new int[5];
+
     private int lineNo;
+
     private int prev;
+
     private InputStream in;
 
+    /**
+     * Create an ASCII85 Input Stream from given stream.
+     * 
+     * @param input input to use
+     */
     public ASCII85InputStream(InputStream input) {
         super();
         in = input;
@@ -38,9 +51,11 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
     public int read() throws IOException {
 
         if (bIndex >= bLength) {
-            if (endReached) return -1;
+            if (endReached)
+                return -1;
             bLength = readTuple();
-            if (bLength < 0) return -1;
+            if (bLength < 0)
+                return -1;
             bIndex = 0;
         }
         int a = b[bIndex];
@@ -49,50 +64,55 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
         return a;
     }
 
+    /**
+     * @return current line number
+     */
     public int getLineNo() {
         return lineNo;
     }
 
-    private int readTuple() throws IOException,  EncodingException {
+    private int readTuple() throws IOException, EncodingException {
         int cIndex = 0;
         int ch = -1;
-        while ((!endReached) && (cIndex<5)) {
+        while ((!endReached) && (cIndex < 5)) {
             prev = ch;
             ch = in.read();
             switch (ch) {
-                case -1:
-                    throw new EncodingException("missing '~>' at end of ASCII85 stream");
-                case 'z':
-                    b[0] = b[1] = b[2] = b[3] = '!';
-                    return 4;
-                case '~':
-                    if (in.read() != '>') throw new EncodingException("Invalid ASCII85 EOD");
-                    endReached = true;
-                    break;
-                case '\r':
+            case -1:
+                throw new EncodingException(
+                        "missing '~>' at end of ASCII85 stream");
+            case 'z':
+                b[0] = b[1] = b[2] = b[3] = '!';
+                return 4;
+            case '~':
+                if (in.read() != '>')
+                    throw new EncodingException("Invalid ASCII85 EOD");
+                endReached = true;
+                break;
+            case '\r':
+                lineNo++;
+                break;
+            case '\n':
+                if (prev != '\r') {
                     lineNo++;
-                    break;
-                case '\n':
-                    if (prev != '\r') {
-                        lineNo++;
-                    }
-                    break;
-                case ' ':
-                case '\t':
-                case '\f':
-                case 0:
-                    // ignored
-                    break;
-                default:
-                    c[cIndex] = ch;
-                    cIndex++;
-                    break;
+                }
+                break;
+            case ' ':
+            case '\t':
+            case '\f':
+            case 0:
+                // ignored
+                break;
+            default:
+                c[cIndex] = ch;
+                cIndex++;
+                break;
             }
         }
 
         if (cIndex > 0) {
             // fill the rest
-            for (int i=0; i<c.length; i++) {
+            for (int i = 0; i < c.length; i++) {
                 if (i >= cIndex) {
                     c[i] = '!';
                 } else {
@@ -101,13 +121,14 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
             }
 
             // convert
-            long d = ((c[0] * a85p4) + (c[1] * a85p3) + (c[2] * a85p2) + (c[3] * a85p1) + c[4]) & 0x00000000FFFFFFFFL;
+            long d = ((c[0] * a85p4) + (c[1] * a85p3) + (c[2] * a85p2)
+                    + (c[3] * a85p1) + c[4]) & 0x00000000FFFFFFFFL;
 
-            b[0] = (int)((d >> 24) & 0x00FF);
-            b[1] = (int)((d >> 16) & 0x00FF);
-            b[2] = (int)((d >> 8)  & 0x00FF);
-            b[3] = (int)( d        & 0x00FF);
+            b[0] = (int) ((d >> 24) & 0x00FF);
+            b[1] = (int) ((d >> 16) & 0x00FF);
+            b[2] = (int) ((d >> 8) & 0x00FF);
+            b[3] = (int) (d & 0x00FF);
         }
-        return cIndex-1;
+        return cIndex - 1;
     }
 }

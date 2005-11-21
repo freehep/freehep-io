@@ -1,24 +1,36 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io;
 
-import java.io.*;
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
- * The ASCII85InputStream encodes binary data as ASCII base-85 encoding.
- * The exact definition of ASCII base-85 encoding can be found
- * in the PostScript Language Reference (3rd ed.) chapter 3.13.3.
- *
+ * The ASCII85InputStream encodes binary data as ASCII base-85 encoding. The
+ * exact definition of ASCII base-85 encoding can be found in the PostScript
+ * Language Reference (3rd ed.) chapter 3.13.3.
+ * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/ASCII85OutputStream.java b2aff02d4920 2005/11/18 22:58:46 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ASCII85OutputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
-public class ASCII85OutputStream extends FilterOutputStream implements ASCII85, FinishableOutputStream {
+public class ASCII85OutputStream extends FilterOutputStream implements ASCII85,
+        FinishableOutputStream {
 
     private boolean end;
+
     private int characters;
+
     private int b[] = new int[4];
+
     private int bIndex;
+
     private int c[] = new int[5];
 
+    /**
+     * Create an ASCII85 Output Stream from given stream
+     * 
+     * @param out output stream to use
+     */
     public ASCII85OutputStream(OutputStream out) {
         super(out);
         characters = MAX_CHARS_PER_LINE;
@@ -45,7 +57,7 @@ public class ASCII85OutputStream extends FilterOutputStream implements ASCII85, 
             writeChar('>');
             flush();
             if (out instanceof FinishableOutputStream) {
-                ((FinishableOutputStream)out).finish();
+                ((FinishableOutputStream) out).finish();
             }
         }
     }
@@ -57,29 +69,28 @@ public class ASCII85OutputStream extends FilterOutputStream implements ASCII85, 
 
     private void writeTuple() throws IOException {
         // fill the rest
-        for (int i=bIndex; i<b.length; i++) {
+        for (int i = bIndex; i < b.length; i++) {
             b[i] = 0;
         }
 
         // convert
         long d = ((b[0] << 24) | (b[1] << 16) | (b[2] << 8) | b[3]) & 0x00000000FFFFFFFFL;
 
-        c[0] = (int)(d / a85p4 + '!');
+        c[0] = (int) (d / a85p4 + '!');
         d = d % a85p4;
-        c[1] = (int)(d / a85p3 + '!');
+        c[1] = (int) (d / a85p3 + '!');
         d = d % a85p3;
-        c[2] = (int)(d / a85p2 + '!');
+        c[2] = (int) (d / a85p2 + '!');
         d = d % a85p2;
-        c[3] = (int)(d / a85p1 + '!');
-        c[4] = (int)(d % a85p1 + '!');
+        c[3] = (int) (d / a85p1 + '!');
+        c[4] = (int) (d % a85p1 + '!');
 
         // convert !!!!! to z
-        if ((bIndex >= b.length) &&
-            (c[0] == '!') && (c[1] == '!') &&
-            (c[2] == '!') && (c[3] == '!') && (c[4] == '!')) {
+        if ((bIndex >= b.length) && (c[0] == '!') && (c[1] == '!')
+                && (c[2] == '!') && (c[3] == '!') && (c[4] == '!')) {
             writeChar('z');
         } else {
-            for (int i=0; i<bIndex+1; i++) {
+            for (int i = 0; i < bIndex + 1; i++) {
                 writeChar(c[i]);
             }
         }
