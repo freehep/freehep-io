@@ -11,7 +11,7 @@ import java.util.Properties;
  * <P>
  * The following statements, all start with the
  * 
- * @-sign, are allowed:
+ * &at;-sign, are allowed:
  * 
  * <UL>
  * <LI><B>@ifdef property</B>, reads everything up to the next
@@ -23,7 +23,7 @@ import java.util.Properties;
  *            </UL>
  * 
  * The
- * @-sign itself must be escaped by a backslash, if used in the text followed by
+ * &at;-sign itself must be escaped by a backslash, if used in the text followed by
  *        any of the keywords described above and no action should be taken.
  * 
  * <P>
@@ -31,7 +31,7 @@ import java.util.Properties;
  * the correct read(byte[], int, int) method is used.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/ConditionalInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ConditionalInputStream.java 255235d88cd0 2005/11/21 19:52:48 duns $
  */
 public class ConditionalInputStream extends InputStream {
 
