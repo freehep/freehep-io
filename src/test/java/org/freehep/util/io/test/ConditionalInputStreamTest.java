@@ -1,57 +1,71 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io.test;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
+import org.freehep.util.Assert;
 import org.freehep.util.io.ConditionalInputStream;
 
 /**
  * Test for Conditional Input Stream.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/ConditionalInputStreamTest.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/test/java/org/freehep/util/io/test/ConditionalInputStreamTest.java 925f8bbf7fa3 2005/12/02 21:24:26 duns $
  */
-public class ConditionalInputStreamTest {
+public class ConditionalInputStreamTest extends AbstractStreamTest {
 
-    private static void test(String file, Properties defines)
-            throws IOException {
-        System.out.println("========================================");
-        ConditionalInputStream in = new ConditionalInputStream(
-                new FileInputStream(file), defines);
-        int b = in.read();
-        while (b != -1) {
-            System.out.write(b);
-            b = in.read();
-        }
-        in.close();
-        System.out.println("========================================");
-        System.out.flush();
+    private File testFile;
+    
+    protected void setUp() throws Exception {
+        super.setUp();
+        testFile = new File(testDir, "ConditionalInputStream.txt");
     }
+    
+    /**
+     * Test method for 'org.freehep.util.io.RunLengthInputStream.read()'
+     * @throws Exception if ref file cannot be found
+     */
+    public void testRead1() throws Exception {
+        File refFile = new File(refDir, "ConditionalInputStream.ref1");
+        Properties defines = new Properties();
+            
+        ConditionalInputStream in = new ConditionalInputStream(new FileInputStream(testFile), defines);        
+        Assert.assertEquals(new FileInputStream(refFile), in, false, refFile.getPath());
+    }    
+    
+    /**
+     * Test method for 'org.freehep.util.io.RunLengthInputStream.read()'
+     * @throws Exception if ref file cannot be found
+     */
+    public void testRead2() throws Exception {
+        File refFile = new File(refDir, "ConditionalInputStream.ref2");
+        Properties defines = new Properties();
+        defines.setProperty("FREEHEP", "1");
+            
+        ConditionalInputStream in = new ConditionalInputStream(new FileInputStream(testFile), defines);
+        Assert.assertEquals(new FileInputStream(refFile), in, false, refFile.getPath());
+    }    
+    
 
     /**
-     * FIXME use junit
-     * 
-     * @param args
-     * @throws IOException
+     * Test method for 'org.freehep.util.io.RunLengthInputStream.read()'
+     * @throws Exception if ref file cannot be found
      */
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.out.println("Usage: ConditionalInputStreamTest filename");
-            System.exit(1);
-        }
-
+    public void testRead3() throws Exception {
+        File refFile = new File(refDir, "ConditionalInputStream.ref3");
         Properties defines = new Properties();
-        System.out.println("Nothing");
-        test(args[0], defines);
-
-        System.out.println("FREEHEP");
         defines.setProperty("FREEHEP", "1");
-        test(args[0], defines);
-
-        System.out.println("FREEHEP & WIRED");
         defines.setProperty("WIRED", "1");
-        test(args[0], defines);
-    }
+            
+        ConditionalInputStream in = new ConditionalInputStream(new FileInputStream(testFile), defines);
+//        OutputStream out = new FileOutputStream("ConditionalInputStream.ref3");
+//        int b;
+//        while ((b = in.read()) >= 0) out.write(b);
+//        out.close();
+        Assert.assertEquals(new FileInputStream(refFile), in, false, refFile.getPath());
+    }    
 }
