@@ -11,17 +11,23 @@ import org.freehep.util.io.StandardFileFilter;
  * Test for the Standard File Filter.
  * 
  * @author duns
- * @version $Id: src/test/java/org/freehep/util/io/test/StandardFileFilterTest.java 5c38dc058ace 2005/12/02 23:30:37 duns $
+ * @version $Id: src/test/java/org/freehep/util/io/test/StandardFileFilterTest.java 7e5c8b8fe11e 2005/12/02 23:55:27 duns $
  */
 public class StandardFileFilterTest extends AbstractStreamTest {
 
-    public void testFileFilterTxt() throws Exception {
+    /**
+     * Counts *.txt files in the ref directory
+     */
+    public void testFileFilterTxt() {
         FileFilter filter = new StandardFileFilter("*.txt");
         File[] files = refDir.listFiles(filter);
         Assert.assertEquals(4, files.length);
     }
 
-    public void testFileFilterRef() throws Exception {
+    /**
+     * Counts *.ref* files in the ref directory
+     */
+    public void testFileFilterRef() {
         FileFilter filter = new StandardFileFilter("*.ref*");
         File[] files = refDir.listFiles(filter);
         Assert.assertEquals(3, files.length);

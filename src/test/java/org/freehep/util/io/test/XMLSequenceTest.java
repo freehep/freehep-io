@@ -1,27 +1,24 @@
-// Copyright 2003, FreeHEP.
+// Copyright 2003-2005, FreeHEP.
 package org.freehep.util.io.test;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
 import junit.framework.AssertionFailedError;
 
 import org.freehep.util.io.XMLSequence;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 /**
  * Test for XML Sequence.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/XMLSequenceTest.java 5c38dc058ace 2005/12/02 23:30:37 duns $
+ * @version $Id: src/test/java/org/freehep/util/io/test/XMLSequenceTest.java 7e5c8b8fe11e 2005/12/02 23:55:27 duns $
  */
 public class XMLSequenceTest extends AbstractStreamTest {
 
