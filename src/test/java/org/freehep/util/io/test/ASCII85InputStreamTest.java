@@ -1,10 +1,8 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2005, FreeHEP.
 package org.freehep.util.io.test;
 
 import java.io.File;
 import java.io.FileInputStream;
-
-import junit.framework.TestCase;
 
 import org.freehep.util.Assert;
 import org.freehep.util.io.ASCII85InputStream;
@@ -13,19 +11,19 @@ import org.freehep.util.io.ASCII85InputStream;
  * Test for ASCII85 Input Stream.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/ASCII85InputStreamTest.java 933ba6fbd8c7 2005/12/02 04:51:25 duns $
+ * @version $Id: src/test/java/org/freehep/util/io/test/ASCII85InputStreamTest.java c5cb38309f84 2005/12/02 20:35:09 duns $
  */
-public class ASCII85InputStreamTest extends TestCase {
-    
-    private File testFile = new File(System.getProperty("basedir"), "src/test/resources/ref/TestFile.xml");
-    private File refFile = new File(System.getProperty("basedir"), "src/test/resources/ref/TestFile.xml.ascii85");
-    
+public class ASCII85InputStreamTest extends AbstractStreamTest {
+        
     /**
      * Test method for 'org.freehep.util.io.ASCII85InputStream.read()'
      * @throws Exception if ref file cannot be found
      */
     public void testRead() throws Exception {
-            ASCII85InputStream in = new ASCII85InputStream(new FileInputStream(testFile));
-            Assert.assertEquals(new FileInputStream(refFile), in, false, refFile.getPath());
+        File testFile = new File(testDir, "TestFile.a85");
+        File refFile = new File(refDir, "TestFile.xml");
+            
+        ASCII85InputStream in = new ASCII85InputStream(new FileInputStream(testFile));
+        Assert.assertEquals(new FileInputStream(refFile), in, false, refFile.getPath());
     }
 }

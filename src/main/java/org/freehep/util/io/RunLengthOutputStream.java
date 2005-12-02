@@ -11,7 +11,7 @@ import java.io.OutputStream;
  * Reference (3rd ed.) chapter 3.13.3.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/RunLengthOutputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/RunLengthOutputStream.java c5cb38309f84 2005/12/02 20:35:09 duns $
  */
 public class RunLengthOutputStream extends FilterOutputStream implements
         RunLength, FinishableOutputStream {
@@ -71,6 +71,12 @@ public class RunLengthOutputStream extends FilterOutputStream implements
             end = true;
             writeCount();
             writeBuffer();
+            
+            // we may have one character left in "last" (FREEHEP-578)
+            if (last >= 0) {
+                super.write(0);
+                super.write(last);
+            }
             super.write(EOD);
             flush();
             if (out instanceof FinishableOutputStream) {

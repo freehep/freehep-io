@@ -1,40 +1,42 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2005, FreeHEP.
 package org.freehep.util.io.test;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.PrintWriter;
 
+import org.freehep.util.Assert;
 import org.freehep.util.io.Base64OutputStream;
 
 /**
  * Test for Base64 Output Stream.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/Base64OutputStreamTest.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/test/java/org/freehep/util/io/test/Base64OutputStreamTest.java c5cb38309f84 2005/12/02 20:35:09 duns $
  */
-public class Base64OutputStreamTest {
+public class Base64OutputStreamTest extends AbstractStreamTest {
 
     /**
-     * FIXME use junit
-     * 
-     * @param args
-     * @throws IOException
+     * Test method for 'org.freehep.util.io.Base64OutputStream.write()'
+     * @throws Exception if ref file cannot be found
      */
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.out.println("Usage: Base64OutputStreamTest filename");
-            System.exit(1);
+    public void testWrite() throws Exception {
+        File testFile = new File(testDir, "TestFile.xml");
+        File outFile = new File(outDir, "TestFile.b64");
+        File refFile = new File(refDir, "TestFile.b64");
+        
+        Base64OutputStream out = new Base64OutputStream(new FileOutputStream(outFile));
+        PrintWriter writer = new PrintWriter(out);
+        BufferedReader reader = new BufferedReader(new FileReader(testFile));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            writer.println(line);
         }
-
-        Base64OutputStream out = new Base64OutputStream(System.out);
-        InputStream in = new FileInputStream(args[0]);
-        int ch = in.read();
-        while (ch >= 0) {
-            out.write((byte) ch);
-            ch = in.read();
-        }
-        in.close();
-        out.close();
+        reader.close();
+        writer.close();
+        
+        Assert.assertEquals(refFile, outFile, false);
     }
 }

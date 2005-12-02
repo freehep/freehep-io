@@ -1,38 +1,29 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io.test;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
+import org.freehep.util.Assert;
 import org.freehep.util.io.RunLengthInputStream;
 
 /**
  * Test for Run Length Input Stream.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/RunLengthInputStreamTest.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/test/java/org/freehep/util/io/test/RunLengthInputStreamTest.java c5cb38309f84 2005/12/02 20:35:09 duns $
  */
-public class RunLengthInputStreamTest {
+public class RunLengthInputStreamTest extends AbstractStreamTest {
 
     /**
-     * FIXME use junit
-     * @param args
-     * @throws IOException
+     * Test method for 'org.freehep.util.io.RunLengthInputStream.read()'
+     * @throws Exception if ref file cannot be found
      */
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.out.println("Usage: RunLengthInputStreamTest filename");
-            System.exit(1);
-        }
-
-        RunLengthInputStream in = new RunLengthInputStream(new FileInputStream(
-                args[0]));
-        int b = in.read();
-        while (b != -1) {
-            System.out.write(b);
-            b = in.read();
-        }
-        in.close();
-        System.out.flush();
+    public void testRead() throws Exception {
+        File testFile = new File(testDir, "TestFile.rnl");
+        File refFile = new File(refDir, "TestFile.xml");
+            
+        RunLengthInputStream in = new RunLengthInputStream(new FileInputStream(testFile));
+        Assert.assertEquals(new FileInputStream(refFile), in, true, refFile.getPath());
     }
 }
