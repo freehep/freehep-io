@@ -1,6 +1,7 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -13,7 +14,7 @@ import java.io.InputStream;
  * the correct read(byte[], int, int) method is used.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/ASCII85InputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ASCII85InputStream.java 933ba6fbd8c7 2005/12/02 04:51:25 duns $
  */
 public class ASCII85InputStream extends InputStream implements ASCII85 {
 
@@ -130,5 +131,26 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
             b[3] = (int) (d & 0x00FF);
         }
         return cIndex - 1;
+    }
+
+    /**
+     * Print out ASCII85 of a file
+     * 
+     * @param args filename
+     * @throws Exception when file does not exist
+     */
+    public static void main(String[] args) throws Exception {
+        if (args.length < 1) {
+            System.err.println("Usage: ASCII85InputStream filename");
+            System.exit(1);
+        }
+        ASCII85InputStream in = new ASCII85InputStream(new FileInputStream(args[0]));
+        int b = in.read();
+        while (b != -1) {
+            System.out.write(b);
+            b = in.read();
+        }
+        in.close();
+        System.out.flush();
     }
 }
