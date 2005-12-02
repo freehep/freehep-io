@@ -1,10 +1,8 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2005, FreeHEP.
 package org.freehep.util.io.test;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.Properties;
 
 import org.freehep.util.Assert;
@@ -14,7 +12,7 @@ import org.freehep.util.io.ConditionalInputStream;
  * Test for Conditional Input Stream.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/ConditionalInputStreamTest.java 925f8bbf7fa3 2005/12/02 21:24:26 duns $
+ * @version $Id: src/test/java/org/freehep/util/io/test/ConditionalInputStreamTest.java 5c38dc058ace 2005/12/02 23:30:37 duns $
  */
 public class ConditionalInputStreamTest extends AbstractStreamTest {
 

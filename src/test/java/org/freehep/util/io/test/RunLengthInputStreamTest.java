@@ -1,4 +1,4 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2005, FreeHEP.
 package org.freehep.util.io.test;
 
 import java.io.File;
@@ -11,7 +11,7 @@ import org.freehep.util.io.RunLengthInputStream;
  * Test for Run Length Input Stream.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/RunLengthInputStreamTest.java c5cb38309f84 2005/12/02 20:35:09 duns $
+ * @version $Id: src/test/java/org/freehep/util/io/test/RunLengthInputStreamTest.java 5c38dc058ace 2005/12/02 23:30:37 duns $
  */
 public class RunLengthInputStreamTest extends AbstractStreamTest {
 

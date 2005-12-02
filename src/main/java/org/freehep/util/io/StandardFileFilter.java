@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * style).
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/StandardFileFilter.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/StandardFileFilter.java 5c38dc058ace 2005/12/02 23:30:37 duns $
  */
 public class StandardFileFilter implements FileFilter {
 
@@ -34,7 +34,7 @@ public class StandardFileFilter implements FileFilter {
      */
     public StandardFileFilter(String template) {
         if (template.indexOf("/") < 0)
-            template = "./" + template;
+            template = "*/" + template;
 
         // convert pattern
         StringBuffer s = new StringBuffer();

@@ -1,10 +1,14 @@
-// Copyright 2002, FreeHEP.
+// Copyright 2002-2005, FreeHEP.
 package org.freehep.util.io.test;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 
+import org.freehep.util.Assert;
 import org.freehep.util.io.RouteListener;
 import org.freehep.util.io.RoutedInputStream;
 
@@ -12,70 +16,68 @@ import org.freehep.util.io.RoutedInputStream;
  * Test for Routed Input Stream.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/RoutedInputStreamTest.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/test/java/org/freehep/util/io/test/RoutedInputStreamTest.java 5c38dc058ace 2005/12/02 23:30:37 duns $
  */
-public class RoutedInputStreamTest {
+public class RoutedInputStreamTest extends AbstractStreamTest {
 
     /**
-     * FIXME use junit
-     * @param args
-     * @throws IOException
+     * Tests RoutiedInputStream.read()
+     * 
+     * @throws Exception when reference file cannot be found
      */
-    public static void main(String[] args) throws IOException {
-        if ((args.length < 1) || ((args.length % 2) != 1)) {
-            System.out
-                    .println("Usage: RoutedInputStreamTest filename [start end]");
-            System.exit(1);
-        }
+    public void testRead() throws Exception {
 
+        File testFile = new File(testDir, "RoutedInputStream.txt");
+        File refFile = new File(refDir, "RoutedInputStream.out");
+        File outFile = new File(outDir, "RoutedInputStream.out");
+        
         RoutedInputStream in = new RoutedInputStream(new BufferedInputStream(
-                new FileInputStream(args[0])));
-
-        for (int i = 1; i < args.length; i += 2) {
-            in.addRoute(args[i], args[i + 1], new RouteListener() {
-
-                public void routeFound(RoutedInputStream.Route route)
-                        throws IOException {
-                    System.out.write('[');
-                    System.out.write(route.getStart());
-                    System.out.write(':');
-                    int b = route.read();
-                    while (b != -1) {
-                        System.out.write(b);
-                        b = route.read();
-                    }
-                    route.close();
-                    System.out.write(']');
-                    System.out.flush();
+                new FileInputStream(testFile)));
+        final PrintStream out = new PrintStream(new FileOutputStream(outFile));
+        
+        RouteListener listener = new RouteListener() {
+            public void routeFound(RoutedInputStream.Route route)
+                    throws IOException {
+                out.write('[');
+                out.write(route.getStart());
+                out.write(':');
+                int b = route.read();
+                while (b != -1) {
+                    out.write(b);
+                    b = route.read();
                 }
-            });
-            System.out.println("Added route: " + args[i] + "-" + args[i + 1]);
-        }
-
+                route.close();
+                out.write(']');
+                out.flush();
+            }
+        };
+        
+        in.addRoute("StartA", "EndA", listener);
+        in.addRoute("StartB", "EndB", listener);
+        in.addRoute("StartC", "EndC", listener);
+        
         in.addRoute("SClosed", "EClosed", new RouteListener() {
 
             public void routeFound(RoutedInputStream.Route route)
                     throws IOException {
-                System.out.print("[EarlyClosed:");
+                out.print("[EarlyClosed:");
                 for (int i = 0; i < 6; i++) {
-                    System.out.write(route.read());
+                    out.write(route.read());
                 }
                 route.close();
-                System.out.write(']');
-                System.out.flush();
+                out.write(']');
+                out.flush();
             }
         });
 
-        long t0 = System.currentTimeMillis();
-
         int b = in.read();
         while (b != -1) {
-            System.out.write(b);
+            out.write(b);
             b = in.read();
         }
         in.close();
-        System.out.flush();
-        System.err.println("Reading took: " + (System.currentTimeMillis() - t0)
-                + " ms.");
+        out.close();
+        
+        Assert.assertEquals(refFile, outFile, false);
     }
 }

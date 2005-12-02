@@ -1,4 +1,4 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2005, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.io.InputStream;
  * the correct read(byte[], int, int) method is used.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/RunLengthInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/RunLengthInputStream.java 5c38dc058ace 2005/12/02 23:30:37 duns $
  */
 public class RunLengthInputStream extends InputStream implements RunLength {
 

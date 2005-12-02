@@ -1,50 +1,51 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2005, FreeHEP.
 package org.freehep.util.io.test;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
+import org.freehep.util.Assert;
 import org.freehep.util.io.PromptInputStream;
 import org.freehep.util.io.PromptListener;
 import org.freehep.util.io.RoutedInputStream;
 
+
 /**
  * Test for Prompt Input Stream
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/PromptInputStreamTest.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/test/java/org/freehep/util/io/test/PromptInputStreamTest.java 5c38dc058ace 2005/12/02 23:30:37 duns $
  */
-public class PromptInputStreamTest {
+public class PromptInputStreamTest extends AbstractStreamTest {
 
     /**
-     * FIXME use junit
-     * @param args
-     * @throws IOException
+     * Test PromptInputStream.read()
+     * @throws Exception when ref file cannot be found
      */
-    public static void main(String[] args) throws IOException {
-        if (args.length < 1) {
-            System.out
-                    .println("Usage: PromptInputStreamTest filename [prompts...]");
-            System.exit(1);
-        }
-
-        PromptInputStream in = new PromptInputStream(new FileInputStream(
-                args[0]));
-        for (int i = 1; i < args.length; i++) {
-            final int promptNo = i - 1;
-            in.addPromptListener(args[i], new PromptListener() {
+    public void testPrompt() throws Exception {
+        File testFile = new File(testDir, "PromptInputStream.txt");
+        File refFile = new File(refDir, "PromptInputStream.out");
+        File outFile = new File(outDir, "PromptInputStream.out");
+        
+        PromptInputStream in = new PromptInputStream(new FileInputStream(testFile));
+        final PrintWriter writer = new PrintWriter(new FileWriter(outFile));
+            final int promptNo = 0;
+            in.addPromptListener("Idle>", new PromptListener() {
                 public void promptFound(RoutedInputStream.Route route) {
-                    System.out.println("\nPROMPT[" + promptNo + "]: "
-                            + new String(route.getStart()));
+                    writer.println();
+                    writer.println("PROMPT[" + promptNo + "]: " + (new String(route.getStart())));
                 }
             });
-        }
 
-        int b = in.read();
+        int b = in.read(); 
         while (b >= 0) {
-            System.out.write(b);
+            writer.write(b);
             b = in.read();
         }
         in.close();
-        System.out.flush();
-    }
+        writer.close();
+
+        Assert.assertEquals(refFile, outFile, false);        
+    }    
 }
