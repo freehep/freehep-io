@@ -11,7 +11,7 @@ import java.io.OutputStream;
  * Language Reference (3rd ed.) chapter 3.13.3.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/ASCII85OutputStream.java aa59840f7a08 2005/12/09 23:56:15 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ASCII85OutputStream.java 68b927e3b465 2005/12/10 00:06:20 duns $
  */
 public class ASCII85OutputStream extends FilterOutputStream implements ASCII85,
         FinishableOutputStream {
@@ -62,6 +62,7 @@ public class ASCII85OutputStream extends FilterOutputStream implements ASCII85,
             }
             writeChar('~');
             writeChar('>');
+            writeNewLine();
             flush();
             if (out instanceof FinishableOutputStream) {
                 ((FinishableOutputStream) out).finish();
@@ -106,12 +107,16 @@ public class ASCII85OutputStream extends FilterOutputStream implements ASCII85,
     private void writeChar(int b) throws IOException {
         if (characters == 0) {
             characters = MAX_CHARS_PER_LINE;
-            // write a newline
-            for (int i=0; i < newline.length(); i++) {
-                super.write(newline.charAt(i));                
-            }
+            writeNewLine();
         }
         characters--;
         super.write(b);
+    }
+    
+    private void writeNewLine() throws IOException {
+        // write a newline
+        for (int i=0; i < newline.length(); i++) {
+            super.write(newline.charAt(i));                
+        }        
     }
 }
