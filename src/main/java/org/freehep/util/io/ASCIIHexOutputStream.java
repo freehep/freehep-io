@@ -11,7 +11,7 @@ import java.io.OutputStream;
  * Reference (3rd ed.) chapter 3.13.3.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/ASCIIHexOutputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ASCIIHexOutputStream.java 6e9dcf5329c1 2005/12/10 00:33:07 duns $
  */
 public class ASCIIHexOutputStream extends FilterOutputStream implements
         FinishableOutputStream {
@@ -22,6 +22,8 @@ public class ASCIIHexOutputStream extends FilterOutputStream implements
 
     private boolean end;
 
+    private String newline = "\n";
+
     /**
      * Create an ASCIIHex Output Stream for given stream.
      * 
@@ -31,6 +33,11 @@ public class ASCIIHexOutputStream extends FilterOutputStream implements
         super(out);
         characters = MAX_CHARS_PER_LINE;
         end = false;
+        try {
+            newline = System.getProperty("line.separator");            
+        } catch (SecurityException e) {
+            // ignored;
+        }
     }
 
     public void write(int b) throws IOException {
@@ -54,6 +61,7 @@ public class ASCIIHexOutputStream extends FilterOutputStream implements
         if (!end) {
             end = true;
             writeChar('>');
+            writeNewLine();
             flush();
             if (out instanceof FinishableOutputStream) {
                 ((FinishableOutputStream) out).finish();
@@ -69,9 +77,16 @@ public class ASCIIHexOutputStream extends FilterOutputStream implements
     private void writeChar(int b) throws IOException {
         if (characters == 0) {
             characters = MAX_CHARS_PER_LINE;
-            super.write('\n');
+            writeNewLine();
         }
         characters--;
         super.write(b);
+    }
+
+    private void writeNewLine() throws IOException {
+        // write a newline
+        for (int i=0; i < newline.length(); i++) {
+            super.write(newline.charAt(i));                
+        }        
     }
 }

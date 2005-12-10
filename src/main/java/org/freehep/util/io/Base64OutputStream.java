@@ -9,7 +9,7 @@ import java.io.OutputStream;
  * The Base64OutputStream encodes binary data according to RFC 2045.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/Base64OutputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/Base64OutputStream.java 6e9dcf5329c1 2005/12/10 00:33:07 duns $
  */
 public class Base64OutputStream extends FilterOutputStream implements
         FinishableOutputStream {
@@ -33,6 +33,8 @@ public class Base64OutputStream extends FilterOutputStream implements
             '4', '5', '6', '7', '8', '9', '+', '/' // 56 - 63
     };
 
+    private String newline = "\n";
+
     /**
      * Creates a Base64 output stream for given output
      * 
@@ -43,6 +45,11 @@ public class Base64OutputStream extends FilterOutputStream implements
         buffer = new byte[3];
         position = 0;
         lineLength = 0;
+        try {
+            newline = System.getProperty("line.separator");            
+        } catch (SecurityException e) {
+            // ignored;
+        }
     }
 
     public void write(int a) throws IOException {
@@ -54,11 +61,11 @@ public class Base64OutputStream extends FilterOutputStream implements
         // "+Integer.toHexString(buffer[1])+",
         // "+Integer.toHexString(buffer[2])+" ");
         writeTuple();
-        // out.write('\n');
+        // writeNewLine();
 
         lineLength += 4;
         if (lineLength >= MAX_LINE_LENGTH) {
-            out.write('\n');
+            writeNewLine();
             lineLength = 0;
         }
 
@@ -114,4 +121,10 @@ public class Base64OutputStream extends FilterOutputStream implements
         }
     }
 
+    private void writeNewLine() throws IOException {
+        // write a newline
+        for (int i=0; i < newline.length(); i++) {
+            out.write(newline.charAt(i));                
+        }        
+    }    
 }
