@@ -2,7 +2,7 @@
   <parent>
     <artifactId>global</artifactId>
     <groupId>org.freehep</groupId>
-    <version>5</version>
+    <version>6</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.freehep</groupId>
@@ -21,7 +21,7 @@
      <dependency>
         <groupId>org.freehep</groupId>
         <artifactId>freehep-util</artifactId>
-        <version>2.0</version>
+        <version>2.0.1</version>
         <scope>test</scope>
      </dependency>
      <dependency>
