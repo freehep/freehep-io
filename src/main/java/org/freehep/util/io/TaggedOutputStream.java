@@ -16,7 +16,7 @@ import java.io.OutputStream;
  * 
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/TaggedOutputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/TaggedOutputStream.java 295a924a923b 2006/12/15 20:32:24 duns $
  */
 public abstract class TaggedOutputStream extends ByteCountOutputStream
         implements TaggedOutput {
@@ -93,9 +93,20 @@ public abstract class TaggedOutputStream extends ByteCountOutputStream
             write(0);
         }
         int len = popBuffer();
-        TagHeader header = new TagHeader(tagID, len);
+        TagHeader header = createTagHeader(tag, len);
         writeTagHeader(header);
         append();
+    }
+    
+    /**
+     * Returns  newly created TagHeader. The default implementation
+     * creates a tagHeader from tagID and length. This method is
+     * called "after" the tag information is written, but the 
+     * tag header is inserted before the tag info into the stream. 
+     * Its called after since it needs the length of the tag info.
+     */
+    protected TagHeader createTagHeader(Tag tag, long len) {
+        return new TagHeader(tag.getTag(), len);
     }
 
     /**

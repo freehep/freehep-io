@@ -1,4 +1,4 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2006, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.io.InputStream;
  * 
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/TaggedInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/TaggedInputStream.java 295a924a923b 2006/12/15 20:32:24 duns $
  */
 public abstract class TaggedInputStream extends ByteCountInputStream {
 
@@ -30,6 +30,11 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
      */
     protected ActionSet actionSet;
 
+    /**
+     * Currently read tagHeader, valid during readTag call.
+     */
+    private TagHeader tagHeader;
+    
     /**
      * Creates a Tagged Input Stream
      * 
@@ -81,18 +86,18 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
      */
     public Tag readTag() throws IOException {
 
-        TagHeader header = readTagHeader();
-        if (header == null)
+        tagHeader = readTagHeader();
+        if (tagHeader == null)
             return null;
 
-        int size = (int) header.getLength();
+        int size = (int) tagHeader.getLength();
 
         // Look up the proper tag.
-        Tag tag = tagSet.get(header.getTag());
+        Tag tag = tagSet.get(tagHeader.getTag());
 
         // set max tag length and read tag
         pushBuffer(size);
-        tag = tag.read(header.getTag(), this, size);
+        tag = tag.read(tagHeader.getTag(), this, size);
         byte[] rest = popBuffer();
 
         // read non-read part of tag
@@ -102,6 +107,13 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
         return tag;
     }
 
+    /**
+     * Returns the currently valid TagHeader. Can be called durring the tag.read() method.
+     */
+    public TagHeader getTagHeader() {
+        return tagHeader;
+    }
+    
     /**
      * Add action to action set.
      * 
