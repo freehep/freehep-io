@@ -1,4 +1,4 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2007, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.FilterOutputStream;
@@ -11,7 +11,7 @@ import java.io.OutputStream;
  * Language Reference (3rd ed.) chapter 3.13.3.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/ASCII85OutputStream.java 68b927e3b465 2005/12/10 00:06:20 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ASCII85OutputStream.java 8f5e4664c6f0 2007/01/05 22:52:09 duns $
  */
 public class ASCII85OutputStream extends FilterOutputStream implements ASCII85,
         FinishableOutputStream {
@@ -60,9 +60,7 @@ public class ASCII85OutputStream extends FilterOutputStream implements ASCII85,
             if (bIndex > 0) {
                 writeTuple();
             }
-            writeChar('~');
-            writeChar('>');
-            writeNewLine();
+            writeEOD();
             flush();
             if (out instanceof FinishableOutputStream) {
                 ((FinishableOutputStream) out).finish();
@@ -104,6 +102,17 @@ public class ASCII85OutputStream extends FilterOutputStream implements ASCII85,
         }
     }
 
+    // Fix for IO-7
+    private void writeEOD() throws IOException {
+        if (characters <= 1) {
+            characters = MAX_CHARS_PER_LINE;
+            writeNewLine();
+        }
+        characters -= 2;
+        super.write('~');
+        super.write('>'); 
+    }
+    
     private void writeChar(int b) throws IOException {
         if (characters == 0) {
             characters = MAX_CHARS_PER_LINE;
