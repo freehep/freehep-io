@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import org.freehep.util.Assert;
 import org.freehep.util.io.RouteListener;
 import org.freehep.util.io.RoutedInputStream;
 

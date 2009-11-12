@@ -4,7 +4,6 @@ package org.freehep.util.io.test;
 import java.io.File;
 import java.io.FileFilter;
 
-import org.freehep.util.Assert;
 import org.freehep.util.io.StandardFileFilter;
 
 /**

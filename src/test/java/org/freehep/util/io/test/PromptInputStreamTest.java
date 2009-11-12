@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-import org.freehep.util.Assert;
 import org.freehep.util.io.PromptInputStream;
 import org.freehep.util.io.PromptListener;
 import org.freehep.util.io.RoutedInputStream;

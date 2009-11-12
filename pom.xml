@@ -1,32 +1,39 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <parent>
-    <artifactId>global</artifactId>
-    <groupId>org.freehep</groupId>
-    <version>6</version>
-  </parent>
+
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>org.freehep</groupId>
   <artifactId>freehep-io</artifactId>
   <version>2.0.3-SNAPSHOT</version>
+
   <name>FreeHEP IO</name>
   <description>FreeHEP I/O Library</description>
-  <repositories>
-    <repository>
-      <id>freehep-maven</id>
-      <name>Maven FreeHEP</name>
-      <url>http://java.freehep.org/maven2</url>
-    </repository>
-  </repositories>
+
+  <scm>
+    <connection>scm:git:git://github.com/freehep/freehep-io.git</connection>
+    <developerConnection>scm:git:git@github.com:freehep/freehep-io.git</developerConnection>
+    <url>http://github.com/freehep/freehep-io</url>
+  </scm>
+  <issueManagement>
+    <system>jira</system>
+    <url>http://bugs.freehep.org/browse/IO</url>
+  </issueManagement>
+
+  <properties>
+    <mavenVersion>2.0.9</mavenVersion>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <build>
+    <defaultGoal>install</defaultGoal>
+  </build>
+
   <dependencies>
-     <dependency>
-        <groupId>org.freehep</groupId>
-        <artifactId>freehep-util</artifactId>
-        <version>2.0.1</version>
-        <scope>test</scope>
-     </dependency>
      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
+        <version>3.8.1</version>
      </dependency>
   </dependencies>
+
 </project>

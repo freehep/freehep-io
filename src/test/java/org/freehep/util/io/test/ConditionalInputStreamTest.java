@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import org.freehep.util.Assert;
 import org.freehep.util.io.ConditionalInputStream;
 
 /**

@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-import org.freehep.util.Assert;
 import org.freehep.util.io.ASCII85OutputStream;
 
 /**
