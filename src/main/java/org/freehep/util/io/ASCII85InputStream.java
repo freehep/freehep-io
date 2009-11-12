@@ -1,4 +1,4 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2009, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.FileInputStream;
@@ -10,11 +10,12 @@ import java.io.InputStream;
  * definition of ASCII base-85 encoding can be found in the PostScript Language
  * Reference (3rd ed.) chapter 3.13.3.
  * 
+ * MOre info also on http://en.wikipedia.org/wiki/Ascii85
+ * 
  * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
  * the correct read(byte[], int, int) method is used.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/ASCII85InputStream.java 933ba6fbd8c7 2005/12/02 04:51:25 duns $
  */
 public class ASCII85InputStream extends InputStream implements ASCII85 {
 
@@ -112,10 +113,10 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
         }
 
         if (cIndex > 0) {
-            // fill the rest
+            // fill the rest, avoid rounding by padding with "u" characters.
             for (int i = 0; i < c.length; i++) {
                 if (i >= cIndex) {
-                    c[i] = '!';
+                    c[i] = 'u';
                 } else {
                     c[i] -= '!';
                 }

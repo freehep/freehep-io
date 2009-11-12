@@ -1,4 +1,4 @@
-// Copyright 2003, FreeHEP.
+// Copyright 2003-2009, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.IOException;
@@ -10,8 +10,9 @@ import java.io.InputStream;
  * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
  * the correct read(byte[], int, int) method is used.
  * 
+ * see also: http://en.wikipedia.org/wiki/Base64
+ * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/Base64InputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class Base64InputStream extends InputStream {
 
@@ -78,6 +79,9 @@ public class Base64InputStream extends InputStream {
         int a = b[bIndex];
         bIndex++;
 
+        if (a < 0 || a > 0xFF) {
+            throw new EncodingException(getClass()+" internal error, byte output out of range: "+a);
+        }
         return a;
     }
 
@@ -138,28 +142,28 @@ public class Base64InputStream extends InputStream {
                 break;
             }
         }
-
+        
         int data;
         switch (cIndex) {
         case 2:
             data = (c[0] << 18) | (c[1] << 12);
 
-            b[0] = data >>> 16;
+            b[0] = (data >>> 16) & 0xFF;
             return 1;
 
         case 3:
             data = (c[0] << 18) | (c[1] << 12) | (c[2] << 6);
 
-            b[0] = data >>> 16;
-            b[1] = data >>> 8;
+            b[0] = (data >>> 16) & 0xFF;
+            b[1] = (data >>> 8) & 0xFF;
             return 2;
 
         case 4:
             data = (c[0] << 18) | (c[1] << 12) | (c[2] << 6) | (c[3]);
-
-            b[0] = data >>> 16;
-            b[1] = data >>> 8;
-            b[2] = data;
+            
+            b[0] = (data >>> 16) & 0xFF;
+            b[1] = (data >>> 8) & 0xFF;
+            b[2] = data & 0xFF;
             return 3;
 
         default:

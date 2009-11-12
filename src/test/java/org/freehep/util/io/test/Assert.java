@@ -1,4 +1,4 @@
-// Copyright 2002-2005, FreeHEP.
+// Copyright 2002-2009, FreeHEP.
 package org.freehep.util.io.test;
 
 import java.io.BufferedInputStream;
@@ -17,7 +17,6 @@ import junit.framework.AssertionFailedError;
  * Additional assert methods to the junit.framework.Assert class.
  *
  * @author Mark Donszelmann
- * @version $Id: Assert.java 8584 2006-08-10 23:06:37Z duns $
  */
 public class Assert extends junit.framework.Assert {
 
@@ -81,6 +80,7 @@ public class Assert extends junit.framework.Assert {
         do {
             bRef = ref.read();
             bTst = tst.read();
+//            System.err.println(i+" "+bTst+" "+(char)bTst+" "+bRef+" "+(char)bRef);
             i++;
         } while ((bRef >= 0) && (bTst >= 0) && (bRef == bTst));
         ref.close();
@@ -98,7 +98,7 @@ public class Assert extends junit.framework.Assert {
         } while ((bRef != null) && (bTst != null) && (bRef.equals(bTst)));
         ref.close();
         tst.close();
-
+        
         return ((bRef == null) && (bTst == null)) ? -1 : i-1;
     }
 }

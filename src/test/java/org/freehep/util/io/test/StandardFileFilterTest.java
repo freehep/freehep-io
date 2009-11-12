@@ -1,4 +1,4 @@
-// Copyright 2003, SLAC, Stanford, U.S.A
+// Copyright 2003-2009, FreeHEP
 package org.freehep.util.io.test;
 
 import java.io.File;
@@ -9,8 +9,7 @@ import org.freehep.util.io.StandardFileFilter;
 /**
  * Test for the Standard File Filter.
  * 
- * @author duns
- * @version $Id: src/test/java/org/freehep/util/io/test/StandardFileFilterTest.java 7e5c8b8fe11e 2005/12/02 23:55:27 duns $
+ * @author Mark Donszelmann
  */
 public class StandardFileFilterTest extends AbstractStreamTest {
 
@@ -20,7 +19,7 @@ public class StandardFileFilterTest extends AbstractStreamTest {
     public void testFileFilterTxt() {
         FileFilter filter = new StandardFileFilter("*.txt");
         File[] files = refDir.listFiles(filter);
-        Assert.assertEquals(4, files.length);
+        Assert.assertEquals(5, files.length);
     }
 
     /**

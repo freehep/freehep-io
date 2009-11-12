@@ -1,10 +1,10 @@
-// Copyright 2001-2005, FreeHEP.
+// Copyright 2001-2009, FreeHEP.
 package org.freehep.util.io.test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 
 import org.freehep.util.io.Base64OutputStream;
 
@@ -12,7 +12,6 @@ import org.freehep.util.io.Base64OutputStream;
  * Test for Base64 Output Stream.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/Base64OutputStreamTest.java 6e9dcf5329c1 2005/12/10 00:33:07 duns $
  */
 public class Base64OutputStreamTest extends AbstractStreamTest {
 
@@ -21,21 +20,75 @@ public class Base64OutputStreamTest extends AbstractStreamTest {
      * @throws Exception if ref file cannot be found
      */
     public void testWrite() throws Exception {
-        // this XML file needs to be fixed: eol-style=CRLF
-        File testFile = new File(testDir, "TestFile.xml");
-        File outFile = new File(outDir, "TestFile.b64");
-        File refFile = new File(refDir, "TestFile.b64");
+        File testFile = new File(testDir, "Quote.txt");
+        File outFile = new File(outDir, "Quote.b64");
+        File refFile = new File(refDir, "Quote.b64");
         
         Base64OutputStream out = new Base64OutputStream(new FileOutputStream(outFile));
-        // NOTE: read byte by byte, so the test will work on all platforms
-        InputStream in = new FileInputStream(testFile);
+        FileInputStream in = new FileInputStream(testFile);
         int b;
         while ((b = in.read()) >= 0) {
             out.write(b);
         }
         in.close();
         out.close();
-        
-        Assert.assertEquals(refFile, outFile, false);
+
+        Assert.assertEquals(refFile, outFile, true);
+    }
+    
+    public void testEnding1() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Base64OutputStream out = new Base64OutputStream(baos);
+        out.write("sure.".getBytes());
+        out.close();
+        Assert.assertEquals( "c3VyZS4=", baos.toString());
+    }
+
+    public void testEnding2() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Base64OutputStream out = new Base64OutputStream(baos);
+        out.write("sure".getBytes());
+        out.close();
+        Assert.assertEquals( "c3VyZQ==", baos.toString());
+    }
+
+    public void testEnding3() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Base64OutputStream out = new Base64OutputStream(baos);
+        out.write("sur".getBytes());
+        out.close();
+        Assert.assertEquals( "c3Vy", baos.toString());
+    }
+
+    public void testEnding4() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Base64OutputStream out = new Base64OutputStream(baos);
+        out.write("su".getBytes());
+        out.close();
+        Assert.assertEquals( "c3U=", baos.toString());
+    }
+
+    public void testEnding5() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Base64OutputStream out = new Base64OutputStream(baos);
+        out.write("leasure.".getBytes());
+        out.close();
+        Assert.assertEquals( "bGVhc3VyZS4=", baos.toString());
+    }
+
+    public void testEnding6() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Base64OutputStream out = new Base64OutputStream(baos);
+        out.write("easure.".getBytes());
+        out.close();
+        Assert.assertEquals( "ZWFzdXJlLg==", baos.toString());
+    }
+
+    public void testEnding7() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Base64OutputStream out = new Base64OutputStream(baos);
+        out.write("asure.".getBytes());
+        out.close();
+        Assert.assertEquals( "YXN1cmUu", baos.toString());
     }
 }

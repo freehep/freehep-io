@@ -1,4 +1,4 @@
-// Copyright 2001-2005, FreeHEP.
+// Copyright 2001-2009, FreeHEP.
 package org.freehep.util.io.test;
 
 import java.io.File;
@@ -10,7 +10,6 @@ import org.freehep.util.io.ASCIIHexInputStream;
  * Test for ASCII Hex Input Stream
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/ASCIIHexInputStreamTest.java c5cb38309f84 2005/12/02 20:35:09 duns $
  */
 public class ASCIIHexInputStreamTest extends AbstractStreamTest {
 
@@ -19,10 +18,10 @@ public class ASCIIHexInputStreamTest extends AbstractStreamTest {
      * @throws Exception if ref file cannot be found
      */
     public void testRead() throws Exception {
-        File testFile = new File(testDir, "TestFile.hex");
-        File refFile = new File(refDir, "TestFile.xml");
+        File testFile = new File(testDir, "Quote.hex");
+        File refFile = new File(refDir, "Quote.txt");
             
         ASCIIHexInputStream in = new ASCIIHexInputStream(new FileInputStream(testFile));
-        Assert.assertEquals(new FileInputStream(refFile), in, false, refFile.getPath());
+        Assert.assertEquals(new FileInputStream(refFile), in, true, refFile.getPath());
     }
 }

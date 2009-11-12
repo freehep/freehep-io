@@ -1,4 +1,4 @@
-// Copyright 2003-2005, FreeHEP.
+// Copyright 2003-2009, FreeHEP.
 package org.freehep.util.io.test;
 
 import java.io.File;
@@ -10,7 +10,6 @@ import org.freehep.util.io.Base64InputStream;
  * Test for Base64 Input Stream.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/Base64InputStreamTest.java c5cb38309f84 2005/12/02 20:35:09 duns $
  */
 public class Base64InputStreamTest extends AbstractStreamTest {
 
@@ -19,10 +18,10 @@ public class Base64InputStreamTest extends AbstractStreamTest {
      * @throws Exception if ref file cannot be found
      */
     public void testRead() throws Exception {
-        File testFile = new File(testDir, "TestFile.b64");
-        File refFile = new File(refDir, "TestFile.xml");
+        File testFile = new File(testDir, "Quote.b64");
+        File refFile = new File(refDir, "Quote.txt");
             
         Base64InputStream in = new Base64InputStream(new FileInputStream(testFile));
-        Assert.assertEquals(new FileInputStream(refFile), in, false, refFile.getPath());
-    }
+        Assert.assertEquals(new FileInputStream(refFile), in, true, refFile.getPath());
+    }    
 }

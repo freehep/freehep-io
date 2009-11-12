@@ -1,4 +1,4 @@
-// Copyright 2002, FreeHEP.
+// Copyright 2002-2009, FreeHEP.
 package org.freehep.util.io.test;
 
 import java.io.File;
@@ -11,7 +11,6 @@ import org.freehep.util.io.BitOutputStream;
  * Test for Bit Output Stream.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/test/java/org/freehep/util/io/test/BitOutputStreamTest.java 925f8bbf7fa3 2005/12/02 21:24:26 duns $
  */
 public class BitOutputStreamTest extends AbstractStreamTest {
 
@@ -20,9 +19,9 @@ public class BitOutputStreamTest extends AbstractStreamTest {
      * @throws Exception if ref file cannot be found
      */
     public void testWrite() throws Exception {
-        File testFile = new File(testDir, "TestFile.xml");
-        File outFile = new File(outDir, "TestFile.bit");
-        File refFile = new File(refDir, "TestFile.bit");
+        File testFile = new File(testDir, "Quote.txt");
+        File outFile = new File(outDir, "Quote.bit");
+        File refFile = new File(refDir, "Quote.bit");
         
         BitOutputStream out = new BitOutputStream(new FileOutputStream(outFile));
         FileInputStream in = new FileInputStream(testFile);
