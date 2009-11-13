@@ -2,7 +2,6 @@
 package org.freehep.util.io;
 
 import java.io.FileInputStream;
-import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 

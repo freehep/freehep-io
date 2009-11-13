@@ -2,12 +2,10 @@
 package org.freehep.util.io.test;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 
 import org.freehep.util.io.ASCII85InputStream;
-import org.freehep.util.io.ASCII85OutputStream;
 import org.freehep.util.io.EncodingException;
 
 /**
