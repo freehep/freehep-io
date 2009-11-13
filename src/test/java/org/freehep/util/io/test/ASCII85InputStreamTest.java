@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 
 import org.freehep.util.io.ASCII85InputStream;
 import org.freehep.util.io.ASCII85OutputStream;
+import org.freehep.util.io.EncodingException;
 
 /**
  * Test for ASCII85 Input Stream.
@@ -78,4 +79,19 @@ public class ASCII85InputStreamTest extends AbstractStreamTest {
         Assert.assertArrayEquals( new byte[] {0, 0, 0, 0, 0}, b, 5);
     }
 
+    public void testZincorrect() throws Exception {
+        ByteArrayInputStream bais = new ByteArrayInputStream("3z89~>".getBytes());
+        ASCII85InputStream in = new ASCII85InputStream(bais);
+        
+        byte[] b = new byte[10];
+        try {
+            int len = in.read(b);
+        } catch (EncodingException e) {
+            // ok
+            return;
+        } finally {
+            in.close();
+        }
+        throw new AssertionError("EncodingException expected");
+    }
 }

@@ -82,13 +82,16 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
             switch (ch) {
             case -1:
                 throw new EncodingException(
-                        "missing '~>' at end of ASCII85 stream");
+                        "ASCII85InputStream: missing '~>' at end of stream");
             case 'z':
+                if (cIndex != 0) {
+                    throw new EncodingException( "ASCII85InputStream: 'z' encoding can only appear at the start of a group, cIndex: "+cIndex );
+                }
                 b[0] = b[1] = b[2] = b[3] = 0;
                 return 4;
             case '~':
                 if (in.read() != '>')
-                    throw new EncodingException("Invalid ASCII85 EOD");
+                    throw new EncodingException("ASCII85InputStream: Invalid EOD");
                 endReached = true;
                 break;
             case '\r':
@@ -111,7 +114,7 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
                 break;
             }
         }
-
+        
         if (cIndex > 0) {
             // fill the rest, avoid rounding by padding with "u" characters.
             for (int i = 0; i < c.length; i++) {
