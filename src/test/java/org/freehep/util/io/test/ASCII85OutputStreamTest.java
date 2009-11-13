@@ -1,6 +1,7 @@
 // Copyright 2001-2009, FreeHEP.
 package org.freehep.util.io.test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -33,5 +34,57 @@ public class ASCII85OutputStreamTest extends AbstractStreamTest {
         out.close();
         
         Assert.assertEquals(refFile, outFile, true);
-    }    
+    }  
+    
+    public void testNull1() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ASCII85OutputStream out = new ASCII85OutputStream(baos);
+        out.write(0);
+        out.close();
+        Assert.assertEquals( "!!~>", baos.toString());
+    }
+
+    public void testNull2() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ASCII85OutputStream out = new ASCII85OutputStream(baos);
+        out.write(0);
+        out.write(0);
+        out.close();
+        Assert.assertEquals( "!!!~>", baos.toString());
+    }
+
+    
+    public void testNull3() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ASCII85OutputStream out = new ASCII85OutputStream(baos);
+        out.write(0);
+        out.write(0);
+        out.write(0);
+        out.close();
+        Assert.assertEquals( "!!!!~>", baos.toString());
+    }
+
+    public void testNull4() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ASCII85OutputStream out = new ASCII85OutputStream(baos);
+        out.write(0);
+        out.write(0);
+        out.write(0);
+        out.write(0);
+        out.close();
+        Assert.assertEquals( "z~>", baos.toString());
+    }
+
+    public void testNull5() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ASCII85OutputStream out = new ASCII85OutputStream(baos);
+        out.write(0);
+        out.write(0);
+        out.write(0);
+        out.write(0);
+        out.write(0);
+        out.close();
+        Assert.assertEquals( "z!!~>", baos.toString());
+    }
+
 }

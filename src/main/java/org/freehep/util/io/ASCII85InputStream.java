@@ -84,7 +84,7 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
                 throw new EncodingException(
                         "missing '~>' at end of ASCII85 stream");
             case 'z':
-                b[0] = b[1] = b[2] = b[3] = '!';
+                b[0] = b[1] = b[2] = b[3] = 0;
                 return 4;
             case '~':
                 if (in.read() != '>')

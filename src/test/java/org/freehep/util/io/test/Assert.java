@@ -18,7 +18,7 @@ import junit.framework.AssertionFailedError;
  *
  * @author Mark Donszelmann
  */
-public class Assert extends junit.framework.Assert {
+public class Assert extends org.junit.Assert {
 
     /**
      * static class only
@@ -100,5 +100,21 @@ public class Assert extends junit.framework.Assert {
         tst.close();
         
         return ((bRef == null) && (bTst == null)) ? -1 : i-1;
+    }
+
+    public static void assertArrayEquals( byte[] expecteds, byte[] actuals, int len )
+    {
+        if (expecteds.length != len) throw new AssertionError("expected length "+expecteds.length+" not equals to checked length "+len);
+        
+        // make arrays the same length (as actuals) and pad with 0s
+        byte[] b = new byte[actuals.length];
+        System.arraycopy( expecteds, 0, b, 0, len );
+     
+        for (int i=len; i<b.length; i++) {
+            b[i] = 0;
+            actuals[i] = 0;
+        }
+        
+        org.junit.Assert.assertArrayEquals( b, actuals );
     }
 }
