@@ -94,4 +94,46 @@ public class ASCII85InputStreamTest extends AbstractStreamTest {
         }
         throw new AssertionError("EncodingException expected");
     }
+    
+    public void testLineBreakInEOD() throws Exception {
+        ByteArrayInputStream bais = new ByteArrayInputStream("9jqo^Blb~\n>".getBytes());
+        ASCII85InputStream in = new ASCII85InputStream(bais);
+        
+        byte[] b = new byte[10];
+        int len = in.read(b);
+        in.close();
+        Assert.assertEquals( "Man is", new String(b, 0, len));
+    }
+    
+    public void testEOD1() throws Exception {
+        ByteArrayInputStream bais = new ByteArrayInputStream("389".getBytes());
+        ASCII85InputStream in = new ASCII85InputStream(bais);
+        
+        byte[] b = new byte[10];
+        try {
+            int len = in.read(b);
+        } catch (EncodingException e) {
+            // ok
+            return;
+        } finally {
+            in.close();
+        }
+        throw new AssertionError("EncodingException expected");        
+    }
+
+    public void testEOD2() throws Exception {
+        ByteArrayInputStream bais = new ByteArrayInputStream("389~".getBytes());
+        ASCII85InputStream in = new ASCII85InputStream(bais);
+        
+        byte[] b = new byte[10];
+        try {
+            int len = in.read(b);
+        } catch (EncodingException e) {
+            // ok
+            return;
+        } finally {
+            in.close();
+        }
+        throw new AssertionError("EncodingException expected");        
+    }
 }

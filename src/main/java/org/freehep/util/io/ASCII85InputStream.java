@@ -2,6 +2,7 @@
 package org.freehep.util.io;
 
 import java.io.FileInputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -90,8 +91,13 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
                 b[0] = b[1] = b[2] = b[3] = 0;
                 return 4;
             case '~':
-                if (in.read() != '>')
-                    throw new EncodingException("ASCII85InputStream: Invalid EOD");
+                ch = in.read();
+                while ((ch >= 0) && (ch != '>') && Character.isWhitespace(ch)) {
+                    ch = in.read();
+                }
+                if ( ch != '>') {
+                    throw new EncodingException("ASCII85InputStream: Invalid EOD, expected '>', found "+ch);
+                }
                 endReached = true;
                 break;
             case '\r':
@@ -136,6 +142,36 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
         }
         return cIndex - 1;
     }
+    
+    /**
+     * Overridden to make sure it ALWAYS throws an IOException while a problem occurs in read().
+     */
+    public int read(byte b[], int off, int len) throws IOException {
+        if (b == null) {
+            throw new NullPointerException();
+        } else if (off < 0 || len < 0 || len > b.length - off) {
+            throw new IndexOutOfBoundsException();
+        } else if (len == 0) {
+            return 0;
+        }
+
+        int c = read();
+        if (c == -1) {
+            return -1;
+        }
+        b[off] = (byte)c;
+
+        int i = 1;
+        for (; i < len ; i++) {
+            c = read();
+            if (c == -1) {
+                break;
+            }
+            b[off + i] = (byte)c;
+        }
+        return i;
+    }
+
 
     /**
      * Print out ASCII85 of a file
