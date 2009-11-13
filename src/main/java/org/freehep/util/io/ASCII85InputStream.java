@@ -10,14 +10,11 @@ import java.io.InputStream;
  * definition of ASCII base-85 encoding can be found in the PostScript Language
  * Reference (3rd ed.) chapter 3.13.3.
  * 
- * MOre info also on http://en.wikipedia.org/wiki/Ascii85
- * 
- * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
- * the correct read(byte[], int, int) method is used.
+ * More info also on http://en.wikipedia.org/wiki/Ascii85
  * 
  * @author Mark Donszelmann
  */
-public class ASCII85InputStream extends InputStream implements ASCII85 {
+public class ASCII85InputStream extends DecodingInputStream implements ASCII85 {
 
     private boolean endReached;
 
@@ -141,36 +138,6 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
         }
         return cIndex - 1;
     }
-    
-    /**
-     * Overridden to make sure it ALWAYS throws an IOException while a problem occurs in read().
-     */
-    public int read(byte b[], int off, int len) throws IOException {
-        if (b == null) {
-            throw new NullPointerException();
-        } else if (off < 0 || len < 0 || len > b.length - off) {
-            throw new IndexOutOfBoundsException();
-        } else if (len == 0) {
-            return 0;
-        }
-
-        int c = read();
-        if (c == -1) {
-            return -1;
-        }
-        b[off] = (byte)c;
-
-        int i = 1;
-        for (; i < len ; i++) {
-            c = read();
-            if (c == -1) {
-                break;
-            }
-            b[off + i] = (byte)c;
-        }
-        return i;
-    }
-
 
     /**
      * Print out ASCII85 of a file

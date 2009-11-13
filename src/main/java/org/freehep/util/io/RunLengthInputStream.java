@@ -1,4 +1,4 @@
-// Copyright 2001-2005, FreeHEP.
+// Copyright 2001-2009, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.IOException;
@@ -8,14 +8,10 @@ import java.io.InputStream;
  * The RunLengthStream decodes Run Length encoding. The exact definition of Run
  * Length encoding can be found in the PostScript Language Reference (3rd ed.)
  * chapter 3.13.3.
- * 
- * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
- * the correct read(byte[], int, int) method is used.
- * 
+ *  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/RunLengthInputStream.java 5c38dc058ace 2005/12/02 23:30:37 duns $
  */
-public class RunLengthInputStream extends InputStream implements RunLength {
+public class RunLengthInputStream extends DecodingInputStream implements RunLength {
 
     private int[] buffer = new int[LENGTH];
 

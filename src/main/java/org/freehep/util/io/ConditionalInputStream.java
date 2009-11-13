@@ -1,4 +1,4 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2009, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.IOException;
@@ -27,13 +27,10 @@ import java.util.Properties;
  *        any of the keywords described above and no action should be taken.
  * 
  * <P>
- * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
- * the correct read(byte[], int, int) method is used.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/ConditionalInputStream.java 255235d88cd0 2005/11/21 19:52:48 duns $
  */
-public class ConditionalInputStream extends InputStream {
+public class ConditionalInputStream extends DecodingInputStream {
 
     private int[] buffer = new int[4096];
 

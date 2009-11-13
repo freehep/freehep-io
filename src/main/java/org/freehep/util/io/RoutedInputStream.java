@@ -1,4 +1,4 @@
-// Copyright 2002, FreeHEP.
+// Copyright 2002-2009, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.IOException;
@@ -23,13 +23,9 @@ import java.util.Map;
  * StartOther" are not since they overlap. Start and End markers can be the
  * same.
  * 
- * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
- * the correct read(byte[], int, int) method is used.
- * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/RoutedInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
-public class RoutedInputStream extends InputStream {
+public class RoutedInputStream extends DecodingInputStream {
 
     private InputStream in;
 

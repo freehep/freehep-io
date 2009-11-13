@@ -7,14 +7,11 @@ import java.io.InputStream;
 /**
  * The Base64InputStream decodes binary data according to RFC 2045.
  * 
- * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
- * the correct read(byte[], int, int) method is used.
- * 
  * see also: http://en.wikipedia.org/wiki/Base64
  * 
  * @author Mark Donszelmann
  */
-public class Base64InputStream extends InputStream {
+public class Base64InputStream extends DecodingInputStream {
 
     private int b[] = new int[3];
 

@@ -12,7 +12,6 @@ import java.util.zip.InflaterInputStream;
  * Reference (3rd ed.) chapter 3.13.3.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/FlateInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class FlateInputStream extends InflaterInputStream {
 

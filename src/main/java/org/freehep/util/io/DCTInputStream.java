@@ -1,4 +1,4 @@
-// Copyright 2003, FreeHEP.
+// Copyright 2003-2009, FreeHEP.
 package org.freehep.util.io;
 
 import java.awt.Image;
@@ -12,11 +12,6 @@ import javax.imageio.ImageIO;
  * Reads images from a JPEG Stream, but only images.
  *
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/DCTInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
- */
-/**
- * @author duns
- * 
  */
 public class DCTInputStream extends FilterInputStream {
 

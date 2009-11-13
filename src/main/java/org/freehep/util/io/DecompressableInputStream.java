@@ -1,4 +1,4 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2009, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.IOException;
@@ -9,13 +9,9 @@ import java.util.zip.InflaterInputStream;
  * Special stream that can be used to read uncompressed first and compressed
  * from a certain byte.
  * 
- * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
- * the correct read(byte[], int, int) method is used.
- * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/DecompressableInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
-public class DecompressableInputStream extends InputStream {
+public class DecompressableInputStream extends DecodingInputStream {
 
     private boolean decompress;
 

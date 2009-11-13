@@ -1,4 +1,4 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2009, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.IOException;
@@ -9,13 +9,9 @@ import java.io.InputStream;
  * ASCII Hex encoding can be found in the PostScript Language Reference (3rd
  * ed.) chapter 3.13.3.
  * 
- * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
- * the correct read(byte[], int, int) method is used.
- * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/ASCIIHexInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
-public class ASCIIHexInputStream extends InputStream {
+public class ASCIIHexInputStream extends DecodingInputStream {
 
     private boolean ignoreIllegalChars;
 

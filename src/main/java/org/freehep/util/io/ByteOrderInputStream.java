@@ -1,4 +1,4 @@
-// Copyright 2001, FreeHEP.
+// Copyright 2001-2009, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.DataInput;
@@ -12,7 +12,6 @@ import java.io.InputStream;
  * 
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/ByteOrderInputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class ByteOrderInputStream extends BitInputStream implements DataInput {
 
