@@ -1,4 +1,4 @@
-// Copyright 2003, FreeHEP.
+// Copyright 2003-2009, FreeHEP.
 package org.freehep.util.io;
 
 import java.io.FilterOutputStream;
@@ -12,7 +12,6 @@ import java.util.zip.DeflaterOutputStream;
  * compress the tail of the stream.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/CompressableOutputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class CompressableOutputStream extends FilterOutputStream implements
         FinishableOutputStream {
@@ -31,7 +30,12 @@ public class CompressableOutputStream extends FilterOutputStream implements
         compress = false;
     }
 
-    public void write(int b) throws IOException {
+    // Made final to detect write(int) changes.
+    public final void write(int b) throws IOException {
+        writeSingleByte(b);
+    }
+    
+    protected void writeSingleByte(int b) throws IOException {
         if (compress) {
             dos.write(b);
         } else {
@@ -39,9 +43,15 @@ public class CompressableOutputStream extends FilterOutputStream implements
         }
     }
 
-    public void write(byte[] b, int off, int len) throws IOException {
-        for (int i = 0; i < len; i++) {
-            write(b[off + i]);
+    public final void write(byte[] b, int off, int len) throws IOException {
+        writeByteArray(b, off, len);
+    }
+
+    protected void writeByteArray(byte[] bytes, int offset, int length) throws IOException {
+        if (compress) {
+            dos.write(bytes, offset, length);
+        } else {
+            out.write(bytes, offset, length);
         }
     }
 

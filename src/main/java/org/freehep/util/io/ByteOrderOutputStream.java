@@ -1,6 +1,10 @@
 // Copyright 2001-2005, FreeHEP.
 package org.freehep.util.io;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.ImageObserver;
+import java.awt.image.RenderedImage;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -49,9 +53,16 @@ public class ByteOrderOutputStream extends BitOutputStream implements
         return written;
     }
 
-    public synchronized void write(int b) throws IOException {
+    // Renamed to detect write(int) changes.
+    protected synchronized void writeSingleByte(int b) throws IOException {
         super.write(b);
         written++;
+    }
+    
+    // Improve byte array performance.
+    protected synchronized void writeByteArray(byte[] bytes, int offset, int length) throws IOException {
+        super.writeByteArray(bytes, offset, length);
+        written += length;
     }
 
     public void writeBoolean(boolean b) throws IOException {
@@ -360,5 +371,5 @@ public class ByteOrderOutputStream extends BitOutputStream implements
             }
         }
         dos.write(bytearr);
-    }
+    }    
 }

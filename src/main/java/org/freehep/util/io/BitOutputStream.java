@@ -31,11 +31,6 @@ public class BitOutputStream extends CompressableOutputStream implements
         bitPos = 0;
     }
 
-    public void write(int b) throws IOException {
-        // System.out.println(Integer.toHexString(b));
-        super.write(b);
-    }
-
     public void finish() throws IOException {
 
         flushByte();

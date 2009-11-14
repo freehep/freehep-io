@@ -3,7 +3,7 @@ package org.freehep.util.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,10 +35,12 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
     public ByteCountOutputStream(OutputStream out, boolean littleEndian) {
         super(out, littleEndian);
         currentBuffer = -1;
-        bufferList = new LinkedList();
+        // Improve efficiency.
+        bufferList = new ArrayList();
     }
 
-    public void write(int b) throws IOException {
+    // Renamed and final to detect write(int) changes.
+    protected final void writeSingleByte(int b) throws IOException {
         // System.out.println(Integer.toHexString(b)+" "+index);
         // original stream
         if (currentBuffer == -1) {
@@ -48,6 +50,18 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 
         Buffer buffer = (Buffer) bufferList.get(currentBuffer);
         buffer.add((byte) b);
+    }
+    
+    // Improve byte array performance.
+    protected void writeByteArray(byte[] bytes, int offset, int length) throws IOException {
+        // original stream
+        if (currentBuffer == -1) {
+            super.writeByteArray(bytes, offset, length);
+            return;
+        }
+
+        Buffer buffer = (Buffer)bufferList.get(currentBuffer);
+        buffer.add(bytes, offset, length);
     }
 
     /**
@@ -177,6 +191,18 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
             len++;
         }
 
+        // Improve byte array performance.
+        void add(byte[] bytes, int offset, int appendLength) {
+            int needed = len + appendLength;
+            if (needed > buffer.length) {
+                byte[] newBuffer = new byte[needed];
+                System.arraycopy(buffer, 0, newBuffer, 0, len);
+                buffer = newBuffer;
+            }
+            System.arraycopy(bytes, offset, buffer, len, appendLength);
+            len += appendLength;
+        }
+
         void add(Buffer append) {
             int appendLength = append.getLength();
             int needed = len + appendLength;
@@ -188,7 +214,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
             System.arraycopy(append.getBytes(), 0, buffer, len, appendLength);
             len += appendLength;
         }
-
+        
         int getLength() {
             return len;
         }
