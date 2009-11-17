@@ -13,21 +13,21 @@ import org.freehep.util.io.StandardFileFilter;
  */
 public class StandardFileFilterTest extends AbstractStreamTest {
 
-    /**
-     * Counts *.txt files in the ref directory
-     */
-    public void testFileFilterTxt() {
-        FileFilter filter = new StandardFileFilter("*.txt");
-        File[] files = refDir.listFiles(filter);
-        Assert.assertEquals(5, files.length);
-    }
+	/**
+	 * Counts *.txt files in the ref directory
+	 */
+	public void testFileFilterTxt() {
+		FileFilter filter = new StandardFileFilter("*.txt");
+		File[] files = refDir.listFiles(filter);
+		org.junit.Assert.assertEquals(5, files.length);
+	}
 
-    /**
-     * Counts *.ref* files in the ref directory
-     */
-    public void testFileFilterRef() {
-        FileFilter filter = new StandardFileFilter("*.ref*");
-        File[] files = refDir.listFiles(filter);
-        Assert.assertEquals(3, files.length);
-    }
+	/**
+	 * Counts *.ref* files in the ref directory
+	 */
+	public void testFileFilterRef() {
+		FileFilter filter = new StandardFileFilter("*.ref*");
+		File[] files = refDir.listFiles(filter);
+		org.junit.Assert.assertEquals(3, files.length);
+	}
 }

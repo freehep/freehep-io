@@ -9,35 +9,40 @@ import java.io.IOException;
  * 
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/UndefinedTagException.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/UndefinedTagException.java
+ *          96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class UndefinedTagException extends IOException {
 
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = 7504997713135869344L;
+	private static final long serialVersionUID = 7504997713135869344L;
 
-    /**
-     * Create an Undefined Tag Exception.
-     */
-    public UndefinedTagException() {
-        super();
-    }
+	/**
+	 * Create an Undefined Tag Exception.
+	 */
+	public UndefinedTagException() {
+		super();
+	}
 
-    /**
-     * Create an Undefined Tag Exception.
-     * @param msg message
-     */
-    public UndefinedTagException(String msg) {
-        super(msg);
-    }
+	/**
+	 * Create an Undefined Tag Exception.
+	 * 
+	 * @param msg
+	 *            message
+	 */
+	public UndefinedTagException(String msg) {
+		super(msg);
+	}
 
-    /**
-     * Create an Undefined Tag Exception.
-     * @param code undefined tagID
-     */
-    public UndefinedTagException(int code) {
-        super("Code: (" + code + ")");
-    }
+	/**
+	 * Create an Undefined Tag Exception.
+	 * 
+	 * @param code
+	 *            undefined tagID
+	 */
+	public UndefinedTagException(int code) {
+		super("Code: (" + code + ")");
+	}
 }

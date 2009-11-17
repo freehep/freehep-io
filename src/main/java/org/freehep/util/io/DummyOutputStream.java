@@ -10,18 +10,18 @@ import java.io.OutputStream;
  * @author tonyj
  */
 public class DummyOutputStream extends OutputStream {
-    /**
-     * Creates a Dummy output steram.
-     */
-    public DummyOutputStream() {
-    }
+	/**
+	 * Creates a Dummy output steram.
+	 */
+	public DummyOutputStream() {
+	}
 
-    public void write(int b) throws IOException {
-    }
+	public void write(int b) throws IOException {
+	}
 
-    public void write(byte[] b) throws IOException {
-    }
+	public void write(byte[] b) throws IOException {
+	}
 
-    public void write(byte[] b, int off, int len) throws IOException {
-    }
+	public void write(byte[] b, int off, int len) throws IOException {
+	}
 }

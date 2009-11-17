@@ -8,54 +8,59 @@ package org.freehep.util.io;
  * 
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/ActionHeader.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ActionHeader.java
+ *          96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class ActionHeader {
 
-    int actionCode;
+	int actionCode;
 
-    long length;
+	long length;
 
-    /**
-     * Creates an action header
-     * 
-     * @param actionCode code for action
-     * @param length total length of the tag
-     */
-    public ActionHeader(int actionCode, long length) {
-        this.actionCode = actionCode;
-        this.length = length;
-    }
+	/**
+	 * Creates an action header
+	 * 
+	 * @param actionCode
+	 *            code for action
+	 * @param length
+	 *            total length of the tag
+	 */
+	public ActionHeader(int actionCode, long length) {
+		this.actionCode = actionCode;
+		this.length = length;
+	}
 
-    /**
-     * Sets the action code
-     * 
-     * @param actionCode new action code
-     */
-    public void setAction(int actionCode) {
-        this.actionCode = actionCode;
-    }
+	/**
+	 * Sets the action code
+	 * 
+	 * @param actionCode
+	 *            new action code
+	 */
+	public void setAction(int actionCode) {
+		this.actionCode = actionCode;
+	}
 
-    /**
-     * @return action code
-     */
-    public int getAction() {
-        return actionCode;
-    }
+	/**
+	 * @return action code
+	 */
+	public int getAction() {
+		return actionCode;
+	}
 
-    /**
-     * Sets the length of this tag
-     * 
-     * @param length new length
-     */
-    public void setLength(long length) {
-        this.length = length;
-    }
+	/**
+	 * Sets the length of this tag
+	 * 
+	 * @param length
+	 *            new length
+	 */
+	public void setLength(long length) {
+		this.length = length;
+	}
 
-    /**
-     * @return length of this tag
-     */
-    public long getLength() {
-        return length;
-    }
+	/**
+	 * @return length of this tag
+	 */
+	public long getLength() {
+		return length;
+	}
 }

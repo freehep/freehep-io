@@ -9,42 +9,45 @@ import java.io.IOException;
  * 
  * @author Mark Donszelmann
  * @author Charles Loomis
- * @version $Id: src/main/java/org/freehep/util/io/IncompleteTagException.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/IncompleteTagException.java
+ *          96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class IncompleteTagException extends IOException {
 
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = -7808675150856818588L;
+	private static final long serialVersionUID = -7808675150856818588L;
 
-    private Tag tag;
+	private Tag tag;
 
-    private byte[] rest;
+	private byte[] rest;
 
-    /**
-     * Creates an Incomplete Tag Exception
-     * 
-     * @param tag incomplete tag
-     * @param rest unused bytes
-     */
-    public IncompleteTagException(Tag tag, byte[] rest) {
-        super("Tag " + tag + " contains " + rest.length + " unread bytes");
-        this.tag = tag;
-        this.rest = rest;
-    }
+	/**
+	 * Creates an Incomplete Tag Exception
+	 * 
+	 * @param tag
+	 *            incomplete tag
+	 * @param rest
+	 *            unused bytes
+	 */
+	public IncompleteTagException(Tag tag, byte[] rest) {
+		super("Tag " + tag + " contains " + rest.length + " unread bytes");
+		this.tag = tag;
+		this.rest = rest;
+	}
 
-    /**
-     * @return tag
-     */
-    public Tag getTag() {
-        return tag;
-    }
+	/**
+	 * @return tag
+	 */
+	public Tag getTag() {
+		return tag;
+	}
 
-    /**
-     * @return unused bytes
-     */
-    public byte[] getBytes() {
-        return rest;
-    }
+	/**
+	 * @return unused bytes
+	 */
+	public byte[] getBytes() {
+		return rest;
+	}
 }

@@ -11,24 +11,26 @@ import java.util.zip.DeflaterOutputStream;
  * Reference (3rd ed.) chapter 3.13.3.
  * 
  * @author Mark Donszelmann
- * @version $Id: src/main/java/org/freehep/util/io/FlateOutputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/FlateOutputStream.java
+ *          96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class FlateOutputStream extends DeflaterOutputStream implements
-        FinishableOutputStream {
+		FinishableOutputStream {
 
-    /**
-     * Creates a (In-)Flate output stream.
-     * 
-     * @param out stream to write to
-     */
-    public FlateOutputStream(OutputStream out) {
-        super(out);
-    }
+	/**
+	 * Creates a (In-)Flate output stream.
+	 * 
+	 * @param out
+	 *            stream to write to
+	 */
+	public FlateOutputStream(OutputStream out) {
+		super(out);
+	}
 
-    public void finish() throws IOException {
-        super.finish();
-        if (out instanceof FinishableOutputStream) {
-            ((FinishableOutputStream) out).finish();
-        }
-    }
+	public void finish() throws IOException {
+		super.finish();
+		if (out instanceof FinishableOutputStream) {
+			((FinishableOutputStream) out).finish();
+		}
+	}
 }

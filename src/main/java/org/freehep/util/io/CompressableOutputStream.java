@@ -14,74 +14,77 @@ import java.util.zip.DeflaterOutputStream;
  * @author Mark Donszelmann
  */
 public class CompressableOutputStream extends FilterOutputStream implements
-        FinishableOutputStream {
-    private boolean compress;
+		FinishableOutputStream {
+	private boolean compress;
 
-    private DeflaterOutputStream dos;
+	private DeflaterOutputStream dos;
 
-    /**
-     * Creates a Compressable Output Stream from given stream. Initially the
-     * stream does not compress.
-     * 
-     * @param out stream to write to
-     */
-    public CompressableOutputStream(OutputStream out) {
-        super(out);
-        compress = false;
-    }
+	/**
+	 * Creates a Compressable Output Stream from given stream. Initially the
+	 * stream does not compress.
+	 * 
+	 * @param out
+	 *            stream to write to
+	 */
+	public CompressableOutputStream(OutputStream out) {
+		super(out);
+		compress = false;
+	}
 
-    // Made final to detect write(int) changes.
-    public final void write(int b) throws IOException {
-        writeSingleByte(b);
-    }
-    
-    protected void writeSingleByte(int b) throws IOException {
-        if (compress) {
-            dos.write(b);
-        } else {
-            out.write(b);
-        }
-    }
+	// Made final to detect write(int) changes.
+	public final void write(int b) throws IOException {
+		writeSingleByte(b);
+	}
 
-    public final void write(byte[] b, int off, int len) throws IOException {
-        writeByteArray(b, off, len);
-    }
+	protected void writeSingleByte(int b) throws IOException {
+		if (compress) {
+			dos.write(b);
+		} else {
+			out.write(b);
+		}
+	}
 
-    protected void writeByteArray(byte[] bytes, int offset, int length) throws IOException {
-        if (compress) {
-            dos.write(bytes, offset, length);
-        } else {
-            out.write(bytes, offset, length);
-        }
-    }
+	public final void write(byte[] b, int off, int len) throws IOException {
+		writeByteArray(b, off, len);
+	}
 
-    public void finish() throws IOException {
-        if (compress) {
-            dos.finish();
-        }
-        if (out instanceof FinishableOutputStream) {
-            ((FinishableOutputStream) out).finish();
-        }
-    }
+	protected void writeByteArray(byte[] bytes, int offset, int length)
+			throws IOException {
+		if (compress) {
+			dos.write(bytes, offset, length);
+		} else {
+			out.write(bytes, offset, length);
+		}
+	}
 
-    public void close() throws IOException {
-        if (compress) {
-            finish();
-            dos.close();
-        } else {
-            out.close();
-        }
-    }
+	public void finish() throws IOException {
+		if (compress) {
+			dos.finish();
+		}
+		if (out instanceof FinishableOutputStream) {
+			((FinishableOutputStream) out).finish();
+		}
+	}
 
-    /**
-     * Start compressing from the next byte onwards. Flushes what is currently
-     * in the buffer to the underlying stream and start compression from here.
-     * 
-     * @throws IOException if write fails
-     */
-    public void startCompressing() throws IOException {
-        out.flush();
-        compress = true;
-        dos = new DeflaterOutputStream(out);
-    }
+	public void close() throws IOException {
+		if (compress) {
+			finish();
+			dos.close();
+		} else {
+			out.close();
+		}
+	}
+
+	/**
+	 * Start compressing from the next byte onwards. Flushes what is currently
+	 * in the buffer to the underlying stream and start compression from here.
+	 * 
+	 * @throws IOException
+	 *             if write fails
+	 */
+	public void startCompressing() throws IOException {
+		out.flush();
+		compress = true;
+		dos = new DeflaterOutputStream(out);
+	}
 }

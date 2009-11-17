@@ -13,15 +13,19 @@ import org.freehep.util.io.ASCIIHexInputStream;
  */
 public class ASCIIHexInputStreamTest extends AbstractStreamTest {
 
-    /**
-     * Test method for 'org.freehep.util.io.ASCIIHexInputStream.read()'
-     * @throws Exception if ref file cannot be found
-     */
-    public void testRead() throws Exception {
-        File testFile = new File(testDir, "Quote.hex");
-        File refFile = new File(refDir, "Quote.txt");
-            
-        ASCIIHexInputStream in = new ASCIIHexInputStream(new FileInputStream(testFile));
-        Assert.assertEquals(new FileInputStream(refFile), in, true, refFile.getPath());
-    }
+	/**
+	 * Test method for 'org.freehep.util.io.ASCIIHexInputStream.read()'
+	 * 
+	 * @throws Exception
+	 *             if ref file cannot be found
+	 */
+	public void testRead() throws Exception {
+		File testFile = new File(testDir, "Quote.hex");
+		File refFile = new File(refDir, "Quote.txt");
+
+		ASCIIHexInputStream in = new ASCIIHexInputStream(new FileInputStream(
+				testFile));
+		Assert.assertEquals(new FileInputStream(refFile), in, true, refFile
+				.getPath());
+	}
 }

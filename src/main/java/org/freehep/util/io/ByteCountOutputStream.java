@@ -18,209 +18,217 @@ import java.util.List;
  * 
  * @author Mark Donszelmann
  * @author Ian Graham - added popBufferBytes() for use by CGMOutputStream
- * @version $Id: src/main/java/org/freehep/util/io/ByteCountOutputStream.java 96b41b903496 2005/11/21 19:50:18 duns $
+ * @version $Id: src/main/java/org/freehep/util/io/ByteCountOutputStream.java
+ *          96b41b903496 2005/11/21 19:50:18 duns $
  */
 public class ByteCountOutputStream extends ByteOrderOutputStream {
 
-    private int currentBuffer;
+	private int currentBuffer;
 
-    private List bufferList;
+	private List bufferList;
 
-    /**
-     * Create a Byte Count output stream from given stream
-     * 
-     * @param out stream to write to
-     * @param littleEndian true if stream should be little endian
-     */
-    public ByteCountOutputStream(OutputStream out, boolean littleEndian) {
-        super(out, littleEndian);
-        currentBuffer = -1;
-        // Improve efficiency.
-        bufferList = new ArrayList();
-    }
+	/**
+	 * Create a Byte Count output stream from given stream
+	 * 
+	 * @param out
+	 *            stream to write to
+	 * @param littleEndian
+	 *            true if stream should be little endian
+	 */
+	public ByteCountOutputStream(OutputStream out, boolean littleEndian) {
+		super(out, littleEndian);
+		currentBuffer = -1;
+		// Improve efficiency.
+		bufferList = new ArrayList();
+	}
 
-    // Renamed and final to detect write(int) changes.
-    protected final void writeSingleByte(int b) throws IOException {
-        // System.out.println(Integer.toHexString(b)+" "+index);
-        // original stream
-        if (currentBuffer == -1) {
-            super.write(b);
-            return;
-        }
+	// Renamed and final to detect write(int) changes.
+	protected final void writeSingleByte(int b) throws IOException {
+		// System.out.println(Integer.toHexString(b)+" "+index);
+		// original stream
+		if (currentBuffer == -1) {
+			super.write(b);
+			return;
+		}
 
-        Buffer buffer = (Buffer) bufferList.get(currentBuffer);
-        buffer.add((byte) b);
-    }
-    
-    // Improve byte array performance.
-    protected void writeByteArray(byte[] bytes, int offset, int length) throws IOException {
-        // original stream
-        if (currentBuffer == -1) {
-            super.writeByteArray(bytes, offset, length);
-            return;
-        }
+		Buffer buffer = (Buffer) bufferList.get(currentBuffer);
+		buffer.add((byte) b);
+	}
 
-        Buffer buffer = (Buffer)bufferList.get(currentBuffer);
-        buffer.add(bytes, offset, length);
-    }
+	// Improve byte array performance.
+	protected void writeByteArray(byte[] bytes, int offset, int length)
+			throws IOException {
+		// original stream
+		if (currentBuffer == -1) {
+			super.writeByteArray(bytes, offset, length);
+			return;
+		}
 
-    /**
-     * Pushes the buffer and strat writing to a new one.
-     * 
-     * @throws IOException if the write fails
-     */
-    public void pushBuffer() throws IOException {
-        // call append just to make sure we did not leave anything in the
-        // buffer...
-        append();
-        bufferList.add(new Buffer());
-        currentBuffer++;
-    }
+		Buffer buffer = (Buffer) bufferList.get(currentBuffer);
+		buffer.add(bytes, offset, length);
+	}
 
-    /**
-     * returns the number of bytes written since the last pushBuffer call. It
-     * also puts the write pointer at the start of the buffer, to be able to
-     * "insert" a header. If no buffer was ever pushed, or the last one has been
-     * popped -1 is returned.
-     * 
-     * @return number of bytes written or -1
-     * @throws IOException if the write fails
-     */
-    public int popBuffer() throws IOException {
-        if (currentBuffer >= 0) {
-            append();
-            int len = getBufferLength();
-            currentBuffer--;
-            return len;
-        }
-        return -1;
-    }
+	/**
+	 * Pushes the buffer and strat writing to a new one.
+	 * 
+	 * @throws IOException
+	 *             if the write fails
+	 */
+	public void pushBuffer() throws IOException {
+		// call append just to make sure we did not leave anything in the
+		// buffer...
+		append();
+		bufferList.add(new Buffer());
+		currentBuffer++;
+	}
 
-    /**
-     * Similar to pop buffer, but returns the actual byte[] buffer and then
-     * removes it from the bufferList so that subsequent appends will have no
-     * action. When using this method, the caller is responsible for writing all
-     * buffered data as desired. The byte[] array will usually be larger than
-     * the actual content, so to determine the length of the actual data, you
-     * must call getBufferLength() <i>before</i> invoking this method.
-     * 
-     * @return byte array of bytes that need to be written
-     * @throws IOException if write fails
-     */
-    public byte[] popBufferBytes() throws IOException {
-        int len = popBuffer();
-        if (len >= 0) {
-            Buffer buffer = (Buffer) bufferList.remove(currentBuffer + 1);
-            return buffer.getBytes();
-        } else {
-            return new byte[0];
-        }
-    }
+	/**
+	 * returns the number of bytes written since the last pushBuffer call. It
+	 * also puts the write pointer at the start of the buffer, to be able to
+	 * "insert" a header. If no buffer was ever pushed, or the last one has been
+	 * popped -1 is returned.
+	 * 
+	 * @return number of bytes written or -1
+	 * @throws IOException
+	 *             if the write fails
+	 */
+	public int popBuffer() throws IOException {
+		if (currentBuffer >= 0) {
+			append();
+			int len = getBufferLength();
+			currentBuffer--;
+			return len;
+		}
+		return -1;
+	}
 
-    /**
-     * @return valid number of bytes in the buffer
-     */
-    public int getBufferLength() {
-        return (currentBuffer >= 0) ? ((Buffer) bufferList.get(currentBuffer))
-                .getLength() : -1;
-    }
+	/**
+	 * Similar to pop buffer, but returns the actual byte[] buffer and then
+	 * removes it from the bufferList so that subsequent appends will have no
+	 * action. When using this method, the caller is responsible for writing all
+	 * buffered data as desired. The byte[] array will usually be larger than
+	 * the actual content, so to determine the length of the actual data, you
+	 * must call getBufferLength() <i>before</i> invoking this method.
+	 * 
+	 * @return byte array of bytes that need to be written
+	 * @throws IOException
+	 *             if write fails
+	 */
+	public byte[] popBufferBytes() throws IOException {
+		int len = popBuffer();
+		if (len >= 0) {
+			Buffer buffer = (Buffer) bufferList.remove(currentBuffer + 1);
+			return buffer.getBytes();
+		} else {
+			return new byte[0];
+		}
+	}
 
-    /**
-     * @return total number of bytes written
-     */
-    public int getLength() {
-        int length = 0;
-        for (int i = 0; i < bufferList.size(); i++) {
-            length += ((Buffer) bufferList.get(i)).getLength();
-        }
-        return (currentBuffer >= 0) ? length : -1;
-    }
+	/**
+	 * @return valid number of bytes in the buffer
+	 */
+	public int getBufferLength() {
+		return (currentBuffer >= 0) ? ((Buffer) bufferList.get(currentBuffer))
+				.getLength() : -1;
+	}
 
-    /**
-     * Inserts the bytes written as header and puts the write pointer at the end
-     * of the stream.
-     * 
-     * @throws IOException if write fails
-     */
-    public void append() throws IOException {
-        // append the top-level buffer
-        super.byteAlign();
+	/**
+	 * @return total number of bytes written
+	 */
+	public int getLength() {
+		int length = 0;
+		for (int i = 0; i < bufferList.size(); i++) {
+			length += ((Buffer) bufferList.get(i)).getLength();
+		}
+		return (currentBuffer >= 0) ? length : -1;
+	}
 
-        if (currentBuffer + 1 >= bufferList.size()) {
-            // there is no buffer to append
-            return;
-        }
+	/**
+	 * Inserts the bytes written as header and puts the write pointer at the end
+	 * of the stream.
+	 * 
+	 * @throws IOException
+	 *             if write fails
+	 */
+	public void append() throws IOException {
+		// append the top-level buffer
+		super.byteAlign();
 
-        Buffer append = (Buffer) bufferList.get(currentBuffer + 1);
-        if (append.getLength() > 0) {
-            if (currentBuffer >= 0) {
-                ((Buffer) bufferList.get(currentBuffer)).add(append);
-            } else {
-                super.write(append.getBytes(), 0, append.getLength());
-            }
-        }
-        bufferList.remove(currentBuffer + 1);
-    }
+		if (currentBuffer + 1 >= bufferList.size()) {
+			// there is no buffer to append
+			return;
+		}
 
-    /**
-     * closes the stream, inserting any non-written header.
-     */
-    public void close() throws IOException {
-        append();
-        super.close();
-    }
+		Buffer append = (Buffer) bufferList.get(currentBuffer + 1);
+		if (append.getLength() > 0) {
+			if (currentBuffer >= 0) {
+				((Buffer) bufferList.get(currentBuffer)).add(append);
+			} else {
+				super.write(append.getBytes(), 0, append.getLength());
+			}
+		}
+		bufferList.remove(currentBuffer + 1);
+	}
 
-    static class Buffer {
+	/**
+	 * closes the stream, inserting any non-written header.
+	 */
+	public void close() throws IOException {
+		append();
+		super.close();
+	}
 
-        byte[] buffer;
+	static class Buffer {
 
-        int len;
+		byte[] buffer;
 
-        Buffer() {
-            len = 0;
-            buffer = new byte[256]; // 8192
-        }
+		int len;
 
-        void add(byte b) {
-            if (len + 1 > buffer.length) {
-                byte newBuffer[] = new byte[buffer.length << 1];
-                System.arraycopy(buffer, 0, newBuffer, 0, len);
-                buffer = newBuffer;
-            }
-            buffer[len] = b;
-            len++;
-        }
+		Buffer() {
+			len = 0;
+			buffer = new byte[256]; // 8192
+		}
 
-        // Improve byte array performance.
-        void add(byte[] bytes, int offset, int appendLength) {
-            int needed = len + appendLength;
-            if (needed > buffer.length) {
-                byte[] newBuffer = new byte[needed];
-                System.arraycopy(buffer, 0, newBuffer, 0, len);
-                buffer = newBuffer;
-            }
-            System.arraycopy(bytes, offset, buffer, len, appendLength);
-            len += appendLength;
-        }
+		void add(byte b) {
+			if (len + 1 > buffer.length) {
+				byte newBuffer[] = new byte[buffer.length << 1];
+				System.arraycopy(buffer, 0, newBuffer, 0, len);
+				buffer = newBuffer;
+			}
+			buffer[len] = b;
+			len++;
+		}
 
-        void add(Buffer append) {
-            int appendLength = append.getLength();
-            int needed = len + appendLength;
-            if (needed > buffer.length) {
-                byte[] newBuffer = new byte[needed];
-                System.arraycopy(buffer, 0, newBuffer, 0, len);
-                buffer = newBuffer;
-            }
-            System.arraycopy(append.getBytes(), 0, buffer, len, appendLength);
-            len += appendLength;
-        }
-        
-        int getLength() {
-            return len;
-        }
+		// Improve byte array performance.
+		void add(byte[] bytes, int offset, int appendLength) {
+			int needed = len + appendLength;
+			if (needed > buffer.length) {
+				byte[] newBuffer = new byte[needed];
+				System.arraycopy(buffer, 0, newBuffer, 0, len);
+				buffer = newBuffer;
+			}
+			System.arraycopy(bytes, offset, buffer, len, appendLength);
+			len += appendLength;
+		}
 
-        byte[] getBytes() {
-            return buffer;
-        }
-    }
+		void add(Buffer append) {
+			int appendLength = append.getLength();
+			int needed = len + appendLength;
+			if (needed > buffer.length) {
+				byte[] newBuffer = new byte[needed];
+				System.arraycopy(buffer, 0, newBuffer, 0, len);
+				buffer = newBuffer;
+			}
+			System.arraycopy(append.getBytes(), 0, buffer, len, appendLength);
+			len += appendLength;
+		}
+
+		int getLength() {
+			return len;
+		}
+
+		byte[] getBytes() {
+			return buffer;
+		}
+	}
 }

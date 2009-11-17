@@ -14,124 +14,131 @@ import org.freehep.util.io.EncodingException;
  * @author Mark Donszelmann
  */
 public class ASCII85InputStreamTest extends AbstractStreamTest {
-        
-    /**
-     * Test method for 'org.freehep.util.io.ASCII85InputStream.read()'
-     * @throws Exception if ref file cannot be found
-     */
-    public void testRead() throws Exception {
-        File testFile = new File(testDir, "Quote.a85");
-        File refFile = new File(refDir, "Quote.txt");
-            
-        ASCII85InputStream in = new ASCII85InputStream(new FileInputStream(testFile));
-        Assert.assertEquals(new FileInputStream(refFile), in, true, refFile.getPath());
-    }
-    
-    public void testNull1() throws Exception {
-        ByteArrayInputStream bais = new ByteArrayInputStream("!!~>".getBytes());
-        ASCII85InputStream in = new ASCII85InputStream(bais);
-        
-        byte[] b = new byte[10];
-        int len = in.read(b);
-        in.close();
-        Assert.assertArrayEquals( new byte[] {0}, b, 1);
-    }
 
-    public void testNull2() throws Exception {
-        ByteArrayInputStream bais = new ByteArrayInputStream("!!!~>".getBytes());
-        ASCII85InputStream in = new ASCII85InputStream(bais);
-        
-        byte[] b = new byte[10];
-        int len = in.read(b);
-        in.close();
-        Assert.assertArrayEquals( new byte[] {0, 0}, b, 2);
-    }
-  
-    public void testNull3() throws Exception {
-        ByteArrayInputStream bais = new ByteArrayInputStream("!!!!~>".getBytes());
-        ASCII85InputStream in = new ASCII85InputStream(bais);
-        
-        byte[] b = new byte[10];
-        int len = in.read(b);
-        in.close();
-        Assert.assertArrayEquals( new byte[] {0, 0, 0}, b, 3);
-    }
+	/**
+	 * Test method for 'org.freehep.util.io.ASCII85InputStream.read()'
+	 * 
+	 * @throws Exception
+	 *             if ref file cannot be found
+	 */
+	public void testRead() throws Exception {
+		File testFile = new File(testDir, "Quote.a85");
+		File refFile = new File(refDir, "Quote.txt");
 
-    public void testNull4() throws Exception {
-        ByteArrayInputStream bais = new ByteArrayInputStream("z~>".getBytes());
-        ASCII85InputStream in = new ASCII85InputStream(bais);
-        
-        byte[] b = new byte[10];
-        int len = in.read(b);
-        in.close();
-        Assert.assertArrayEquals( new byte[] {0, 0, 0, 0}, b, 4);
-    }
+		ASCII85InputStream in = new ASCII85InputStream(new FileInputStream(
+				testFile));
+		Assert.assertEquals(new FileInputStream(refFile), in, true, refFile
+				.getPath());
+	}
 
-    public void testNull5() throws Exception {
-        ByteArrayInputStream bais = new ByteArrayInputStream("z!!~>".getBytes());
-        ASCII85InputStream in = new ASCII85InputStream(bais);
-        
-        byte[] b = new byte[10];
-        int len = in.read(b);
-        in.close();
-        Assert.assertArrayEquals( new byte[] {0, 0, 0, 0, 0}, b, 5);
-    }
+	public void testNull1() throws Exception {
+		ByteArrayInputStream bais = new ByteArrayInputStream("!!~>".getBytes());
+		ASCII85InputStream in = new ASCII85InputStream(bais);
 
-    public void testZincorrect() throws Exception {
-        ByteArrayInputStream bais = new ByteArrayInputStream("3z89~>".getBytes());
-        ASCII85InputStream in = new ASCII85InputStream(bais);
-        
-        byte[] b = new byte[10];
-        try {
-            int len = in.read(b);
-        } catch (EncodingException e) {
-            // ok
-            return;
-        } finally {
-            in.close();
-        }
-        throw new AssertionError("EncodingException expected");
-    }
-    
-    public void testLineBreakInEOD() throws Exception {
-        ByteArrayInputStream bais = new ByteArrayInputStream("9jqo^Blb~\n>".getBytes());
-        ASCII85InputStream in = new ASCII85InputStream(bais);
-        
-        byte[] b = new byte[10];
-        int len = in.read(b);
-        in.close();
-        Assert.assertEquals( "Man is", new String(b, 0, len));
-    }
-    
-    public void testEOD1() throws Exception {
-        ByteArrayInputStream bais = new ByteArrayInputStream("389".getBytes());
-        ASCII85InputStream in = new ASCII85InputStream(bais);
-        
-        byte[] b = new byte[10];
-        try {
-            int len = in.read(b);
-        } catch (EncodingException e) {
-            // ok
-            return;
-        } finally {
-            in.close();
-        }
-        throw new AssertionError("EncodingException expected");        
-    }
+		byte[] b = new byte[10];
+		int len = in.read(b);
+		in.close();
+		Assert.assertArrayEquals(new byte[] { 0 }, b, 1);
+	}
 
-    public void testEOD2() throws Exception {
-        ByteArrayInputStream bais = new ByteArrayInputStream("389~".getBytes());
-        ASCII85InputStream in = new ASCII85InputStream(bais);
-        
-        byte[] b = new byte[10];
-        try {
-            int len = in.read(b);
-        } catch (EncodingException e) {
-            // ok
-            return;
-        } finally {
-            in.close();
-        }
-        throw new AssertionError("EncodingException expected");        
-    }
+	public void testNull2() throws Exception {
+		ByteArrayInputStream bais = new ByteArrayInputStream("!!!~>".getBytes());
+		ASCII85InputStream in = new ASCII85InputStream(bais);
+
+		byte[] b = new byte[10];
+		int len = in.read(b);
+		in.close();
+		Assert.assertArrayEquals(new byte[] { 0, 0 }, b, 2);
+	}
+
+	public void testNull3() throws Exception {
+		ByteArrayInputStream bais = new ByteArrayInputStream("!!!!~>"
+				.getBytes());
+		ASCII85InputStream in = new ASCII85InputStream(bais);
+
+		byte[] b = new byte[10];
+		int len = in.read(b);
+		in.close();
+		Assert.assertArrayEquals(new byte[] { 0, 0, 0 }, b, 3);
+	}
+
+	public void testNull4() throws Exception {
+		ByteArrayInputStream bais = new ByteArrayInputStream("z~>".getBytes());
+		ASCII85InputStream in = new ASCII85InputStream(bais);
+
+		byte[] b = new byte[10];
+		int len = in.read(b);
+		in.close();
+		Assert.assertArrayEquals(new byte[] { 0, 0, 0, 0 }, b, 4);
+	}
+
+	public void testNull5() throws Exception {
+		ByteArrayInputStream bais = new ByteArrayInputStream("z!!~>".getBytes());
+		ASCII85InputStream in = new ASCII85InputStream(bais);
+
+		byte[] b = new byte[10];
+		int len = in.read(b);
+		in.close();
+		Assert.assertArrayEquals(new byte[] { 0, 0, 0, 0, 0 }, b, 5);
+	}
+
+	public void testZincorrect() throws Exception {
+		ByteArrayInputStream bais = new ByteArrayInputStream("3z89~>"
+				.getBytes());
+		ASCII85InputStream in = new ASCII85InputStream(bais);
+
+		byte[] b = new byte[10];
+		try {
+			int len = in.read(b);
+		} catch (EncodingException e) {
+			// ok
+			return;
+		} finally {
+			in.close();
+		}
+		throw new AssertionError("EncodingException expected");
+	}
+
+	public void testLineBreakInEOD() throws Exception {
+		ByteArrayInputStream bais = new ByteArrayInputStream("9jqo^Blb~\n>"
+				.getBytes());
+		ASCII85InputStream in = new ASCII85InputStream(bais);
+
+		byte[] b = new byte[10];
+		int len = in.read(b);
+		in.close();
+		org.junit.Assert.assertEquals("Man is", new String(b, 0, len));
+	}
+
+	public void testEOD1() throws Exception {
+		ByteArrayInputStream bais = new ByteArrayInputStream("389".getBytes());
+		ASCII85InputStream in = new ASCII85InputStream(bais);
+
+		byte[] b = new byte[10];
+		try {
+			int len = in.read(b);
+		} catch (EncodingException e) {
+			// ok
+			return;
+		} finally {
+			in.close();
+		}
+		throw new AssertionError("EncodingException expected");
+	}
+
+	public void testEOD2() throws Exception {
+		ByteArrayInputStream bais = new ByteArrayInputStream("389~".getBytes());
+		ASCII85InputStream in = new ASCII85InputStream(bais);
+
+		byte[] b = new byte[10];
+		try {
+			int len = in.read(b);
+		} catch (EncodingException e) {
+			// ok
+			return;
+		} finally {
+			in.close();
+		}
+		throw new AssertionError("EncodingException expected");
+	}
 }

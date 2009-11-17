@@ -11,18 +11,24 @@ import junit.framework.TestCase;
  * @author Mark Donszelmann
  */
 public abstract class AbstractStreamTest extends TestCase {
-    
-    protected File refDir;
-    protected File testDir;
-    protected File outDir;
-    
-    protected void setUp() throws Exception {
-        String baseDir = System.getProperty("basedir");
-        if (baseDir == null) baseDir = ".";
-        refDir = new File(baseDir, "src/test/resources/ref");
-        testDir = refDir;
-        outDir = new File(baseDir, "target/test-output/ref");
-        if (!outDir.exists()) outDir.mkdirs();        
-    }
-    
+
+	protected File refDir;
+
+	protected File testDir;
+
+	protected File outDir;
+
+	protected void setUp() throws Exception {
+		String baseDir = System.getProperty("basedir");
+		if (baseDir == null) {
+			baseDir = ".";
+		}
+		refDir = new File(baseDir, "src/test/resources/ref");
+		testDir = refDir;
+		outDir = new File(baseDir, "target/test-output/ref");
+		if (!outDir.exists()) {
+			outDir.mkdirs();
+		}
+	}
+
 }
