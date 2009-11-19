@@ -25,6 +25,30 @@
     </license>
   </licenses>
 
+  <developers>
+    <developer>
+      <id>duns</id>
+      <name>Mark Donszelmann</name>
+      <email>Mark.Donszelmann@gmail.com</email>
+      <url>http://duns.github.com</url>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <id>tonyj</id>
+      <name>Tony Johnson</name>
+      <email>tonyj@slac.stanford.edu</email>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>
+  </developers>
+
   <scm>
     <connection>scm:git:git://github.com/freehep/freehep-io.git</connection>
     <developerConnection>scm:git:git@github.com:freehep/freehep-io.git</developerConnection>
