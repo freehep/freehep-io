@@ -13,9 +13,9 @@ import java.util.Properties;
  * <UL>
  * <LI><B>@ifdef property</B>, reads everything up to the next
  * 
- * @statement if the property is defined. <LI><B>@ifndef property</B>, reads
+ * <P> if the property is defined. <LI><B>@ifndef property</B>, reads
  *            everything up to the next
- * @statement if the property is not defined. <LI><B>@else</B>, corresponding
+ * <P> if the property is not defined. <LI><B>@else</B>, corresponding
  *            else statement <LI><B>@endif</B>, corresponging endif statement
  *            </UL>
  *            The &at;-sign itself must be escaped by a backslash, if used in
