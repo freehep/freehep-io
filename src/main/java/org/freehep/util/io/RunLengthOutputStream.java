@@ -41,6 +41,7 @@ public class RunLengthOutputStream extends FilterOutputStream implements
 		count = 1;
 	}
 
+	@Override
 	public void write(int a) throws IOException {
 		a &= 0x00FF;
 		if (last > 0) {
@@ -87,6 +88,7 @@ public class RunLengthOutputStream extends FilterOutputStream implements
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		finish();
 		super.close();

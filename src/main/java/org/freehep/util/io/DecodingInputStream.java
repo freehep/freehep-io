@@ -17,6 +17,7 @@ public abstract class DecodingInputStream extends InputStream {
 	 * Overridden to make sure it ALWAYS throws an IOException while a problem
 	 * occurs in read().
 	 */
+	@Override
 	public int read(byte b[], int off, int len) throws IOException {
 		if (b == null) {
 			throw new NullPointerException();

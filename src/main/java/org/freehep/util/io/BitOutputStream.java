@@ -33,6 +33,7 @@ public class BitOutputStream extends CompressableOutputStream implements
 		bitPos = 0;
 	}
 
+	@Override
 	public void finish() throws IOException {
 
 		flushByte();
@@ -41,6 +42,7 @@ public class BitOutputStream extends CompressableOutputStream implements
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 
 		finish();

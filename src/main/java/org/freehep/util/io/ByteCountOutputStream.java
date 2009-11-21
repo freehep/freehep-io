@@ -25,7 +25,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 
 	private int currentBuffer;
 
-	private List bufferList;
+	private List<Buffer> bufferList;
 
 	/**
 	 * Create a Byte Count output stream from given stream
@@ -39,10 +39,11 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 		super(out, littleEndian);
 		currentBuffer = -1;
 		// Improve efficiency.
-		bufferList = new ArrayList();
+		bufferList = new ArrayList<Buffer>();
 	}
 
 	// Renamed and final to detect write(int) changes.
+	@Override
 	protected final void writeSingleByte(int b) throws IOException {
 		// System.out.println(Integer.toHexString(b)+" "+index);
 		// original stream
@@ -51,11 +52,12 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 			return;
 		}
 
-		Buffer buffer = (Buffer) bufferList.get(currentBuffer);
+		Buffer buffer = bufferList.get(currentBuffer);
 		buffer.add((byte) b);
 	}
 
 	// Improve byte array performance.
+	@Override
 	protected void writeByteArray(byte[] bytes, int offset, int length)
 			throws IOException {
 		// original stream
@@ -64,7 +66,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 			return;
 		}
 
-		Buffer buffer = (Buffer) bufferList.get(currentBuffer);
+		Buffer buffer = bufferList.get(currentBuffer);
 		buffer.add(bytes, offset, length);
 	}
 
@@ -117,7 +119,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 	public byte[] popBufferBytes() throws IOException {
 		int len = popBuffer();
 		if (len >= 0) {
-			Buffer buffer = (Buffer) bufferList.remove(currentBuffer + 1);
+			Buffer buffer = bufferList.remove(currentBuffer + 1);
 			return buffer.getBytes();
 		} else {
 			return new byte[0];
@@ -128,7 +130,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 	 * @return valid number of bytes in the buffer
 	 */
 	public int getBufferLength() {
-		return (currentBuffer >= 0) ? ((Buffer) bufferList.get(currentBuffer))
+		return (currentBuffer >= 0) ? bufferList.get(currentBuffer)
 				.getLength() : -1;
 	}
 
@@ -138,7 +140,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 	public int getLength() {
 		int length = 0;
 		for (int i = 0; i < bufferList.size(); i++) {
-			length += ((Buffer) bufferList.get(i)).getLength();
+			length += bufferList.get(i).getLength();
 		}
 		return (currentBuffer >= 0) ? length : -1;
 	}
@@ -159,10 +161,10 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 			return;
 		}
 
-		Buffer append = (Buffer) bufferList.get(currentBuffer + 1);
+		Buffer append = bufferList.get(currentBuffer + 1);
 		if (append.getLength() > 0) {
 			if (currentBuffer >= 0) {
-				((Buffer) bufferList.get(currentBuffer)).add(append);
+				bufferList.get(currentBuffer).add(append);
 			} else {
 				super.write(append.getBytes(), 0, append.getLength());
 			}
@@ -173,6 +175,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 	/**
 	 * closes the stream, inserting any non-written header.
 	 */
+	@Override
 	public void close() throws IOException {
 		append();
 		super.close();

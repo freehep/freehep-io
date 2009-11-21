@@ -52,6 +52,7 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 		return plain;
 	}
 
+	@Override
 	public int read() throws IOException {
 		if (first) {
 			byte[] bytes = new byte[n];
@@ -95,6 +96,7 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		super.close();
 		in.close();

@@ -37,6 +37,7 @@ public class NoCloseOutputStream extends BufferedOutputStream {
 		super(stream, size);
 	}
 
+	@Override
 	public void close() throws IOException {
 		flush();
 	}

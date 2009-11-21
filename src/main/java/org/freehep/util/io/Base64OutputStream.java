@@ -54,6 +54,7 @@ public class Base64OutputStream extends FilterOutputStream implements
 		}
 	}
 
+	@Override
 	public void write(int a) throws IOException {
 		buffer[position++] = (byte) a;
 		if (position < buffer.length) {
@@ -83,6 +84,7 @@ public class Base64OutputStream extends FilterOutputStream implements
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		finish();
 		super.close();

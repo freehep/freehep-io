@@ -20,7 +20,7 @@ import java.util.TreeSet;
 public class UniquePrintStream extends PrintStream implements
 		FinishableOutputStream {
 
-	private SortedSet msg = new TreeSet();
+	private SortedSet<String> msg = new TreeSet<String>();
 
 	/**
 	 * Create a Unique Print Stream.
@@ -32,6 +32,7 @@ public class UniquePrintStream extends PrintStream implements
 		super(out);
 	}
 
+	@Override
 	public void println(String s) {
 		synchronized (this) {
 			msg.add(s);
@@ -39,10 +40,10 @@ public class UniquePrintStream extends PrintStream implements
 	}
 
 	public void finish() {
-		for (Iterator i = msg.iterator(); i.hasNext();) {
-			String s = (String) i.next();
+		for (Iterator<String> i = msg.iterator(); i.hasNext();) {
+			String s = i.next();
 			super.println(s);
 		}
-		msg = new TreeSet();
+		msg = new TreeSet<String>();
 	}
 }

@@ -29,7 +29,7 @@ public class RoutedInputStream extends DecodingInputStream {
 
 	private InputStream in;
 
-	private Map routes, listeners;
+	private Map<byte[], Object> routes, listeners;
 
 	private byte[] buffer;
 
@@ -70,8 +70,8 @@ public class RoutedInputStream extends DecodingInputStream {
 	public RoutedInputStream(InputStream input) {
 		super();
 		in = input;
-		routes = new HashMap();
-		listeners = new HashMap();
+		routes = new HashMap<byte[], Object>();
+		listeners = new HashMap<byte[], Object>();
 		// bufferlength has to be more than 1
 		buffer = new byte[20];
 		sob = -1;
@@ -87,6 +87,7 @@ public class RoutedInputStream extends DecodingInputStream {
 	 * reading and closed, return the first byte after the end marker. This of
 	 * course unless that byte is part of the next start marker.
 	 */
+	@Override
 	public int read() throws IOException {
 
 		int result;
@@ -115,8 +116,8 @@ public class RoutedInputStream extends DecodingInputStream {
 					eob = (eob + 1) % buffer.length;
 
 					// search for a route
-					for (Iterator i = routes.keySet().iterator(); i.hasNext();) {
-						start = (byte[]) i.next();
+					for (Iterator<byte[]> i = routes.keySet().iterator(); i.hasNext();) {
+						start = i.next();
 						index = (eob + buffer.length - start.length)
 								% buffer.length;
 						if (equals(start, buffer, index)) {
@@ -238,8 +239,8 @@ public class RoutedInputStream extends DecodingInputStream {
 	 *            listener to inform about the route
 	 */
 	public void addRoute(byte[] start, byte[] end, RouteListener listener) {
-		for (Iterator i = routes.keySet().iterator(); i.hasNext();) {
-			String key = new String((byte[]) i.next());
+		for (Iterator<byte[]> i = routes.keySet().iterator(); i.hasNext();) {
+			String key = new String(i.next());
 			String name = new String(start);
 			if (key.startsWith(name) || name.startsWith(key)) {
 				throw new IllegalArgumentException("Route '" + name
@@ -323,6 +324,7 @@ public class RoutedInputStream extends DecodingInputStream {
 		 * followed by any bytes up to and including the end marker. If the end
 		 * marker is null, the route is indefinite.
 		 */
+		@Override
 		public int read() throws IOException {
 			if (closed) {
 				return -1;
@@ -350,6 +352,7 @@ public class RoutedInputStream extends DecodingInputStream {
 		 * Closes the stream, and discards any bytes up to and including the end
 		 * marker.
 		 */
+		@Override
 		public void close() throws IOException {
 			while (read() >= 0) {
 				continue;

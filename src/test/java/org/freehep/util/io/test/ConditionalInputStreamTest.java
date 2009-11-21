@@ -19,6 +19,7 @@ public class ConditionalInputStreamTest extends AbstractStreamTest {
 
 	private File testFile;
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		testFile = new File(testDir, "ConditionalInputStream.txt");

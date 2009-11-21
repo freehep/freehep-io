@@ -35,6 +35,7 @@ public class JavaArrayWriter extends IndentPrintWriter implements
 		end = false;
 	}
 
+	@Override
 	public void write(int b) {
 		start();
 
@@ -82,6 +83,7 @@ public class JavaArrayWriter extends IndentPrintWriter implements
 		}
 	}
 
+	@Override
 	public void close() {
 		finish();
 		super.close();

@@ -69,6 +69,7 @@ public abstract class Action {
 		return name;
 	}
 
+	@Override
 	public String toString() {
 		return "Action " + getName() + " (" + getCode() + ")";
 	}
@@ -96,6 +97,7 @@ public abstract class Action {
 			super(actionCode);
 		}
 
+		@Override
 		public Action read(int actionCode, TaggedInputStream input, int length)
 				throws IOException {
 
@@ -104,12 +106,14 @@ public abstract class Action {
 			return action;
 		}
 
+		@Override
 		public void write(int actionCode, TaggedOutputStream output)
 				throws IOException {
 
 			output.writeUnsignedByte(data);
 		}
 
+		@Override
 		public String toString() {
 			return super.toString() + " UNKNOWN!, length " + data.length;
 		}

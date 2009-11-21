@@ -102,5 +102,6 @@ public abstract class Tag {
 	public abstract void write(int tagID, TaggedOutputStream output)
 			throws IOException;
 
+	@Override
 	public abstract String toString();
 }

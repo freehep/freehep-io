@@ -20,7 +20,7 @@ public class ActionSet {
 	/**
 	 * This holds the individual actions.
 	 */
-	protected Map actions;
+	protected Map<Integer, Action> actions;
 
 	protected Action defaultAction;
 
@@ -28,7 +28,7 @@ public class ActionSet {
 	 * Creates an set for actions
 	 */
 	public ActionSet() {
-		actions = new HashMap();
+		actions = new HashMap<Integer, Action>();
 		defaultAction = new Action.Unknown();
 	}
 
@@ -51,7 +51,7 @@ public class ActionSet {
 	 *         found.
 	 */
 	public Action get(int actionCode) {
-		Action action = (Action) actions.get(new Integer(actionCode));
+		Action action = actions.get(new Integer(actionCode));
 		if (action == null) {
 			action = defaultAction;
 		}

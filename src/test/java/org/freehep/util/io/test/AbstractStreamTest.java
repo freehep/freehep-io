@@ -18,6 +18,7 @@ public abstract class AbstractStreamTest extends TestCase {
 
 	protected File outDir;
 
+	@Override
 	protected void setUp() throws Exception {
 		String baseDir = System.getProperty("basedir");
 		if (baseDir == null) {

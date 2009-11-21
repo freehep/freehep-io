@@ -51,6 +51,7 @@ public class ASCIIHexInputStream extends DecodingInputStream {
 		lineNo = 1;
 	}
 
+	@Override
 	public int read() throws IOException {
 		if (endReached) {
 			return -1;

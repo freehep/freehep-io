@@ -60,6 +60,7 @@ public class ConditionalInputStream extends DecodingInputStream {
 		len = 0;
 	}
 
+	@Override
 	public int read() throws IOException {
 
 		int b;

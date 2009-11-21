@@ -113,6 +113,7 @@ public class XMLSequence extends InputStream {
 		return new NoCloseInputStream(this);
 	}
 
+	@Override
 	public int read() throws IOException {
 		if (xmlIndex == xml.length) {
 			return -1;
@@ -174,14 +175,17 @@ public class XMLSequence extends InputStream {
 		return b;
 	}
 
+	@Override
 	public void mark(int readLimit) {
 		in.mark(readLimit);
 	}
 
+	@Override
 	public boolean markSupported() {
 		return in.markSupported();
 	}
 
+	@Override
 	public void reset() throws IOException {
 		if (closed) {
 			throw new IOException(getClass() + ": already closed.");
@@ -198,6 +202,7 @@ public class XMLSequence extends InputStream {
 		eof = false;
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (!closed) {
 			in.close();

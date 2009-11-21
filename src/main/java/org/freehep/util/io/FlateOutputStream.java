@@ -27,6 +27,7 @@ public class FlateOutputStream extends DeflaterOutputStream implements
 		super(out);
 	}
 
+	@Override
 	public void finish() throws IOException {
 		super.finish();
 		if (out instanceof FinishableOutputStream) {

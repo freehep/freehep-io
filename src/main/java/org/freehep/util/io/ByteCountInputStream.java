@@ -41,6 +41,7 @@ public class ByteCountInputStream extends ByteOrderInputStream {
 		len = 0;
 	}
 
+	@Override
 	public int read() throws IOException {
 		// original stream
 		if (index == -1) {

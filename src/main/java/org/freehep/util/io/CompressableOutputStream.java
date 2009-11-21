@@ -32,6 +32,7 @@ public class CompressableOutputStream extends FilterOutputStream implements
 	}
 
 	// Made final to detect write(int) changes.
+	@Override
 	public final void write(int b) throws IOException {
 		writeSingleByte(b);
 	}
@@ -44,6 +45,7 @@ public class CompressableOutputStream extends FilterOutputStream implements
 		}
 	}
 
+	@Override
 	public final void write(byte[] b, int off, int len) throws IOException {
 		writeByteArray(b, off, len);
 	}
@@ -66,6 +68,7 @@ public class CompressableOutputStream extends FilterOutputStream implements
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (compress) {
 			finish();

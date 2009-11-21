@@ -36,51 +36,61 @@ public class IndentPrintWriter extends PrintWriter {
 		this(w, 0);
 	}
 
+	@Override
 	public void print(boolean s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(char s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(char[] s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(double s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(float s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(int s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(long s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(Object s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(String s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void println() {
 		indented = false;
 		super.println();

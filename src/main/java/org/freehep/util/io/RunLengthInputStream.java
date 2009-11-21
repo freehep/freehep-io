@@ -35,6 +35,7 @@ public class RunLengthInputStream extends DecodingInputStream implements
 		count = 0;
 	}
 
+	@Override
 	public int read() throws IOException {
 
 		if ((index >= count) || (index > 128)) {

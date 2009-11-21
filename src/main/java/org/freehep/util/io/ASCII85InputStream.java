@@ -47,6 +47,7 @@ public class ASCII85InputStream extends DecodingInputStream implements ASCII85 {
 		lineNo = 1;
 	}
 
+	@Override
 	public int read() throws IOException {
 
 		if (bIndex >= bLength) {

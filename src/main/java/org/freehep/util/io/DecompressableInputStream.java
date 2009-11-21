@@ -31,10 +31,12 @@ public class DecompressableInputStream extends DecodingInputStream {
 		decompress = false;
 	}
 
+	@Override
 	public int read() throws IOException {
 		return (decompress) ? iis.read() : in.read();
 	}
 
+	@Override
 	public long skip(long n) throws IOException {
 		return (decompress) ? iis.skip(n) : in.skip(n);
 	}

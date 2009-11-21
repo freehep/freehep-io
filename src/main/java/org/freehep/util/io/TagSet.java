@@ -19,7 +19,7 @@ public class TagSet {
 	/**
 	 * This holds the individual tags.
 	 */
-	protected Map tags;
+	protected Map<Integer, Tag> tags;
 
 	/**
 	 * The default tag handler.
@@ -32,7 +32,7 @@ public class TagSet {
 	public TagSet() {
 		// Initialize the tag classes.
 		defaultTag = new UndefinedTag();
-		tags = new HashMap();
+		tags = new HashMap<Integer, Tag>();
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class TagSet {
 	 * @return correspoding tag or UndefinedTag if tagID is not found.
 	 */
 	public Tag get(int tagID) {
-		Tag tag = (Tag) tags.get(new Integer(tagID));
+		Tag tag = tags.get(new Integer(tagID));
 		if (tag == null) {
 			tag = defaultTag;
 		}
