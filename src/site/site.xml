@@ -4,7 +4,7 @@
         <name>FreeHEP I/O</name>
 <!--        <src>http://maven.apache.org/images/apache-maven-project.png</src> -->
 <!-- FIXME, should this be substituted by some properties -->
-        <href>http://java.freehep.org/freehep-io</href>
+        <href>http://freehep.github.com/freehep-io</href>
     </bannerLeft>
     
     <bannerRight>
@@ -16,8 +16,6 @@
     <body>
         <links>
             <item name="FreeHEP" href="http://java.freehep.org/"/>
-            <item name="JAS" href="http://jas.freehep.org/"/>
-            <item name="WIRED" href="http://wired.freehep.org/"/>
         </links>
     
         <menu name="General">
@@ -28,8 +26,7 @@
                 
         <menu name="User Info">
             <item name="Summary" href="project-summary.html"/>
-            <item name="API Doc" href="apidocs/index.html"/>
-            <item name="Jar File(s)" href="http://java.freehep.org/maven2/org/freehep/freehep-io/"/>
+            <item name="Jar File(s)" href="http://repo1.maven.org/maven2/org/freehep/freehep-io/"/>
             <item name="Dependencies" href="dependencies.html"/>
             <item name="Forum" href="http://forum.freehep.org/"/>
             <item name="Bug Reports" href="http://bugs.freehep.org/browse/IO"/>

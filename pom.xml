@@ -76,6 +76,11 @@
       <name>FreeHEP Snapshot Repository</name>
       <url>http://oss.sonatype.org/content/repositories/freehep-snapshots/</url>
     </snapshotRepository>
+  <!-- temporarily until we have a fixed site -->
+    <site>
+      <id>local</id>
+      <url>file:///Users/duns/freehep/git/freehep-io-site</url>
+    </site>
   </distributionManagement>
 
   <build>

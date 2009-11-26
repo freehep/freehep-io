@@ -15,7 +15,8 @@ Introduction
         
         The FreeHEP IO streams are in use by the FreeHEP
         {{{http://java.freehep.org/vectorgraphics}VectorGraphics}}
-        package and the PostScript viewer. Of course all these classes are 
+        package and the {{{http://freehep.github.com/freehep-psviewer}PostScript Viewer}}. 
+        Of course all these classes are 
         usable elsewhere.
         
         A special part of the streams are the "Tagged" Input- and OutputStreams 
