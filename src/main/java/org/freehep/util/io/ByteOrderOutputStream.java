@@ -57,7 +57,7 @@ public class ByteOrderOutputStream extends BitOutputStream implements
 	// Renamed to detect write(int) changes.
 	@Override
 	protected synchronized void writeSingleByte(int b) throws IOException {
-		super.write(b);
+		super.writeSingleByte(b);
 		written++;
 	}
 
