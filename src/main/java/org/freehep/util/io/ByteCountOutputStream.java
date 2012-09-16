@@ -48,7 +48,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 		// System.out.println(Integer.toHexString(b)+" "+index);
 		// original stream
 		if (currentBuffer == -1) {
-			super.write(b);
+			super.writeSingleByte(b);
 			return;
 		}
 
