@@ -26,6 +26,7 @@
                 
         <menu name="User Info">
             <item name="Summary" href="project-summary.html"/>
+            <item name="API Doc" href="apidocs/index.html"/>
             <item name="Jar File(s)" href="http://search.maven.org/#search%7Cga%7C1%7Cfreehep-io"/>
             <item name="Dependencies" href="dependencies.html"/>
             <item name="Downloads" href="https://github.com/freehep/freehep-io/downloads"/>
