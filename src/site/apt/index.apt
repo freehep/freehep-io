@@ -14,7 +14,7 @@ Introduction
         in freehep-base.jar.
         
         The FreeHEP IO streams are in use by the FreeHEP
-        {{{http://java.freehep.org/vectorgraphics}VectorGraphics}}
+        {{{http://freehep.github.com/freehep-vectorgraphics}VectorGraphics}}
         package and the {{{http://freehep.github.com/freehep-psviewer}PostScript Viewer}}. 
         Of course all these classes are 
         usable elsewhere.
@@ -22,7 +22,7 @@ Introduction
         A special part of the streams are the "Tagged" Input- and OutputStreams 
         which allow for tagged blocks to be read and written.
 
-[images/ClassDiagram.png"] I/O ClassDiagram
+[images/ClassDiagram.png] I/O ClassDiagram
 
         Below follows a description of the different streams available:
 

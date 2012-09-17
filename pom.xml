@@ -1,5 +1,4 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.freehep</groupId>
@@ -61,26 +60,22 @@
   </issueManagement>
 
   <properties>
+    <github.global.server>github</github.global.server>
     <mavenVersion>3.0.0</mavenVersion>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <distributionManagement>
     <repository>
-      <id>freehep-releases</id>
+      <id>sonatype-nexus-staging</id>
       <name>FreeHEP Release Repository</name>
       <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
     <snapshotRepository>
-      <id>freehep-snapshots</id>
+      <id>sonatype-nexus-snapshots</id>
       <name>FreeHEP Snapshot Repository</name>
       <url>http://oss.sonatype.org/content/repositories/freehep-snapshots/</url>
     </snapshotRepository>
-  <!-- temporarily until we have a fixed site -->
-    <site>
-      <id>local</id>
-      <url>file:///Users/duns/freehep/git/freehep-io-site</url>
-    </site>
   </distributionManagement>
 
   <build>
@@ -110,7 +105,45 @@
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>2.5.1</version>
       </plugin>
-    </plugins>
+
+    <plugin>
+      <groupId>com.github.github</groupId>
+      <artifactId>site-maven-plugin</artifactId>
+      <version>0.7</version>
+      <configuration>
+        <message>Creating site for ${project.version}</message>
+      </configuration>
+      <executions>
+        <execution>
+          <goals>
+            <goal>site</goal>
+          </goals>
+<!-- should be site-deploy, but this tries to upload the site to distributionManagement site -->
+          <phase>site</phase>
+        </execution>
+      </executions>
+    </plugin>
+
+    <plugin>
+      <groupId>com.github.github</groupId>
+      <artifactId>downloads-maven-plugin</artifactId>
+      <version>0.6</version>
+      <configuration>
+        <description>${project.version} release of ${project.name}</description>
+        <override>true</override>
+        <includeAttached>true</includeAttached>
+      </configuration>
+      <executions>
+        <execution>
+          <goals>
+            <goal>upload</goal>
+          </goals>
+          <phase>deploy</phase>
+        </execution>
+      </executions>    
+    </plugin>
+ 
+   </plugins>
   </build>
 
   <dependencies>
